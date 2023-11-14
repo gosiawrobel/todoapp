@@ -1,12 +1,16 @@
 package com.todo.todo_app.Entities;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
+import java.time.LocalDate;
 import java.util.Date;
 
+
+//@JsonFormat(pattern="yyyy-MM-dd")
 @Entity
 public class Task {
     @Id
@@ -15,19 +19,24 @@ public class Task {
     private String title;
     private String description;
     private Integer category;
+//    @JsonFormat(pattern="yyyy-MM-dd")
     private Date startTime;
-    private Date endTime;
+
     private Integer priority;
+//    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date endTime;
     private Integer estimate;
     private Integer timeSpent;
     private String status;
 
+
+
     public Task(String title, String description, Integer category, Date startTime, Date endTime, Integer priority, Integer estimate, Integer timeSpent, String status) {
         this.title = title;
         this.description = description;
-        this.category = category;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.category = category;
         this.priority = priority;
         this.estimate = estimate;
         this.timeSpent = timeSpent;

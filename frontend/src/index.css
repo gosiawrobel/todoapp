@@ -1,0 +1,51 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+img {
+    width: 50px;
+    height: 50px;
+    padding-left: 20px;
+}
+
+.search-bar{
+    border: none;
+    outline: none;
+    width: 200px;
+}
+
+.path-btn{
+    align-items: center;
+    justify-content: start;
+    font-weight: bold;
+    display: flex;
+    cursor: pointer;
+    background: transparent;
+    outline: none;
+    border: none;
+    
+    border-radius: 20px;
+    padding: 7px 7px;
+    transition: all 0.3s ease;
+    color: #6A7872;
+}
+
+.path-btn:hover {
+    background-color:#4A5953;
+    color: #C9C1C2;
+}
+
+  
+  .btn-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
