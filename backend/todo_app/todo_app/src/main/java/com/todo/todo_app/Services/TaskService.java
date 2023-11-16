@@ -30,12 +30,27 @@ public class TaskService {
         if (task.getTitle() == null || task.getTitle().isEmpty()) {
             throw new ValidationError("Title is required!");
         }
+        task.setReminderSent(false);
+        taskRepository.save(task);
+        return task;
+    }
+    public Task updateTask(Task task) {
         taskRepository.save(task);
         return task;
     }
 
     public Task updateTaskById(Long id, Task updatedTask){
+
         Task existingTask=taskRepository.findById(id).orElseThrow();
+
+        if (updatedTask.getEndTime() != existingTask.getEndTime()) {
+            existingTask.setReminderSent(false);
+        }
+
+        if (updatedTask.getStatus().equals("Done")) {
+            existingTask.setReminderSent(true);
+        }
+
         existingTask.setTitle(updatedTask.getTitle());
         existingTask.setDescription(updatedTask.getDescription());
         existingTask.setCategory(updatedTask.getCategory());
@@ -45,6 +60,8 @@ public class TaskService {
         existingTask.setEstimate(updatedTask.getEstimate());
         existingTask.setTimeSpent(updatedTask.getTimeSpent());
         existingTask.setStatus(updatedTask.getStatus());
+
+
 
         if (updatedTask.getTitle() == null || updatedTask.getTitle().isEmpty()){
             throw new ValidationError("Title is required!");

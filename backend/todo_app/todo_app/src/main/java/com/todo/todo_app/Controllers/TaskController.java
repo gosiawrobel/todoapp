@@ -4,7 +4,9 @@ package com.todo.todo_app.Controllers;
 import com.todo.todo_app.Entities.Task;
 import com.todo.todo_app.ExceptionHandlers.DeleteError;
 import com.todo.todo_app.Repositories.TaskRepository;
+import com.todo.todo_app.Services.TaskReminder;
 import com.todo.todo_app.Services.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +17,15 @@ import java.util.List;
 @RequestMapping("/tasks")
 @CrossOrigin(origins = "http://localhost:3000")
 public class TaskController {
-    private final TaskService taskService;
-    private TaskRepository taskRepository;
 
-    public TaskController(TaskService taskService) {
+    private final TaskService taskService;
+
+
+    private final TaskReminder taskReminder;
+
+    public TaskController(TaskService taskService, TaskReminder taskReminder) {
         this.taskService = taskService;
+        this.taskReminder = taskReminder;
     }
 
     @GetMapping("")
@@ -36,12 +42,15 @@ public class TaskController {
     }
 
     @PostMapping("")
-    public Task addTask(@RequestBody Task task){
-        return taskService.addTask(task);
+    public ResponseEntity<Task> addTask(@RequestBody Task task){
+        Task newTask = taskService.addTask(task);
+        taskReminder.sendTaskNotif(newTask);
+        return ResponseEntity.ok(newTask);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Task> updateTaskById(@PathVariable("id") Long id, @RequestBody Task updatedTask){
+        System.out.println(updatedTask.getEndTime());
         Task task=taskService.updateTaskById(id, updatedTask);
         return ResponseEntity.ok(task);
     }

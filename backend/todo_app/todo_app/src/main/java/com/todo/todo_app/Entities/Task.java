@@ -1,12 +1,11 @@
 package com.todo.todo_app.Entities;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -20,31 +19,54 @@ public class Task {
     private String description;
     private Integer category;
 //    @JsonFormat(pattern="yyyy-MM-dd")
-    private Date startTime;
+    private LocalDateTime startTime;
 
     private Integer priority;
 //    @JsonFormat(pattern="yyyy-MM-dd")
-    private Date endTime;
+    private LocalDateTime endTime;
     private Integer estimate;
     private Integer timeSpent;
     private String status;
+    private String email;
 
+    private boolean reminderSent = false;
 
+    public Task(boolean reminderSent) {
+        this.reminderSent = reminderSent;
+    }
 
-    public Task(String title, String description, Integer category, Date startTime, Date endTime, Integer priority, Integer estimate, Integer timeSpent, String status) {
+    public boolean isReminderSent() {
+        return reminderSent;
+    }
+
+    public void setReminderSent(boolean reminderSent) {
+        this.reminderSent = reminderSent;
+    }
+
+    public Task(String title, String description, Integer category, String email, boolean reminderSent, LocalDateTime startTime, LocalDateTime endTime, Integer priority, Integer estimate, Integer timeSpent, String status) {
         this.title = title;
         this.description = description;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.category = category;
         this.priority = priority;
         this.estimate = estimate;
         this.timeSpent = timeSpent;
         this.status = status;
+        this.email = email;
+        this.category = category;
+        this.reminderSent = reminderSent;
     }
 
     public Task() {
 
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getTitle() {
@@ -71,19 +93,19 @@ public class Task {
         this.category = category;
     }
 
-    public Date getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
 
