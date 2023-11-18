@@ -6,7 +6,12 @@ import  Task from './Task'
 import TaskDetails from './TaskDetails';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 function AllTasks() {
   const[tasks, setTasks] = useState([])
@@ -25,28 +30,16 @@ function AllTasks() {
   const fetchTasks = () => {
     fetch('http://localhost:8080/tasks')
     .then((resp)=> resp.json())
-    .then((data) => setTasks(data))
+    .then((data) => setTasks(data.map((task) => {
+      task.endTime = dayjs.utc(task.endTime).local().format("YYYY-MM-DD HH:mm ")
+      return task
+    })))
+
   }
 
   useEffect(()=>{
     fetchTasks()
   }, []);
-
-  
-  // const deleteTask = (id) => {
-  //   fetch(`http://localhost:8080/tasks/${id}`,{
-  //   method:'DELETE'
-  //   })
-  //   .then((resp) => {
-  //     if (resp.status ===200) {
-  //       setTasks((tasks) =>{
-  //         return tasks.filter((task) => {
-  //           return task.id !== id
-  //         })
-  //       })
-  //     }
-  //   })
-  // }
 
   return (
     <Container>
@@ -54,7 +47,7 @@ function AllTasks() {
       <Grid container spacing={4}>
         {tasks.map((task) => 
           <Grid item>
-            <Task key={task.id} title={task.title} endTime={task.endTime} onClick={openPopup} setTasks={setTasks} taskId={task.id} />
+            <Task key={task.id} title={task.title} endTime={task.endTime} onClick={openPopup} email={task.email} setTasks={setTasks} taskId={task.id} />
         </Grid>
         )}
         <Grid item>

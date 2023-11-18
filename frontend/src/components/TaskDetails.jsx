@@ -9,11 +9,15 @@ import SendIcon from '@mui/icons-material/Send';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
 
@@ -23,6 +27,7 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
         description: "",
         category:"",
         priority:"",
+        email:"",
         status: ""
       })
       const [date, setDate] = useState({
@@ -35,6 +40,7 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
             description: "",
             category:"",
             priority:"",
+            email: "",
             status: "Not started"
         })
         setDate({
@@ -59,6 +65,8 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
           [name]: selectedDate,
         }))
       }
+
+
       const handleForm=(event) => {
         const {name, value} = event.target
         setForm((prevValue) => ({
@@ -69,14 +77,17 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
 
     const updateTask = (setTasks, e) => {
         e.preventDefault();
+
+        const timeUTC = dayjs(date.endTime).utcOffset(0).format('YYYY-MM-DDTHH:mm:ss')
+
         const data =  {
             id: selectedTaskId,
             title: form.title,
             description: form.description,
             category: form.category,
-            startTime: date.startTime,
-            endTime: date.endTime,
+            endTime: timeUTC,
             priority: form.priority,
+            email: form.email,
             status: form.status
         }
         fetch(`http://localhost:8080/tasks/${selectedTaskId}`, {
@@ -89,7 +100,8 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
         .then ((resp) => resp.json())
         .then((data) => 
             {
-          console.log('New task added', data)
+          
+          data.endTime = dayjs.utc(data.endTime).local().format("YYYY-MM-DD HH:mm ")
           setTasks((tasks) => {
             return tasks.map(task => {
                 if (task.id === data.id) {
@@ -108,12 +120,15 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
 
     const createTask = (setTasks, e) => {
         e.preventDefault();
+
+        const timeUTC = dayjs(date.endTime).utcOffset(0).format('YYYY-MM-DDTHH:mm:ss')
+
         const data =  {
             title: form.title,
             description: form.description,
             category: form.category,
-            startTime: date.startTime,
-            endTime: date.endTime,
+            endTime:timeUTC,
+            email: form.email,
             priority: form.priority,
             status: form.status
         }
@@ -128,6 +143,7 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
         .then((data) => 
             {
           console.log('New task added', data)
+          data.endTime = dayjs.utc(data.endTime).local().format("YYYY-MM-DD HH:mm ")
           setTasks((tasks) => {
            return tasks.concat(data)
           })
@@ -171,8 +187,9 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
                     </Select>
                 </FormControl>
    
+                <TextField type="text" name="email" label="email" variant="outlined" value={form.email} onChange={handleForm}> </TextField>
                 <DemoContainer components={['DateField']}>
-                    <DateTimePicker type="date" name="endTime" label="Date" value={dayjs(date.endTime)} onChange={(selectedDate) => handleDate(selectedDate, "endTime")}/>
+                    <DateTimePicker type="date" timeSteps={{hours: 1, minutes: 1, seconds: 1}} name="endTime" ampm={false} label="Date" value={dayjs(date.endTime)} onChange={(selectedDate) => handleDate(selectedDate, "endTime")}/>
               </DemoContainer>
             </Stack>
         </DialogContent>
@@ -196,26 +213,3 @@ export default TaskDetails
 
 
 
-// value={date.endTime}
-
-{/* <Dialog open={open} onClose={handleClosePopup} fullWidth>
-<DialogTitle>Add Task!<IconButton style={{float:'right'}} onClick={handleClosePopup}><CloseIcon></CloseIcon></IconButton></DialogTitle>
-<DialogContent> 
-  <Stack spacing={2} marigin={2}>
-    <TextField required type="text" name="title" label="Title" variant="outlined" value={form.title} onChange={handleForm}>Title</TextField>
-    <TextField type="text" name="description" label="Description" variant="outlined" value={form.description} onChange={handleForm}></TextField>
-    <TextField type="number" name="category" label="Category" variant="outlined" value={form.category} onChange={handleForm}></TextField>
-    <DemoContainer components={['DateField', 'DateField']}>
-    <DateTimePicker type="date" name="startTime"label="Start time" value={date.startTime} onChange={(selectedDate) => handleDate(selectedDate,"startTime")}/>
-    <DateTimePicker type="date" name="endTime" label="End time" value={date.endTime} onChange={(selectedDate) => handleDate(selectedDate, "endTime")}/>
-    </DemoContainer>
-    <TextField type="number" name="priority" label="Priority" variant="outlined" value={form.priority} onChange={handleForm}></TextField>
-    <TextField type="text" name="status" label="Status" variant="outlined" value={form.status} onChange={handleForm}></TextField>
-  </Stack>
-</DialogContent>
-<DialogActions>
-    <IconButton className='icon-btn' arial-label="send" onClick={(e) => {addTask(props.setTask, e)}} >
-      <SendIcon className='icon' fontSize="large"/>
-    </IconButton>
-</DialogActions>
-</Dialog> */}

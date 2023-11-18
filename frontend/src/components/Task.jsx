@@ -4,6 +4,11 @@ import { IconButton, ListItemButton} from '@mui/material'
 import DoneIcon from '@mui/icons-material/Done';
 import DeleteIcon from '@mui/icons-material/Delete';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
+dayjs.extend(require('dayjs/plugin/timezone'));
+
 
 function Task({onClick, taskId, title, endTime, setTasks, description}) {
   const deleteTask = (taskId) => {
@@ -26,7 +31,7 @@ function Task({onClick, taskId, title, endTime, setTasks, description}) {
       <ListItemButton onClick={() => onClick(taskId)}>
         <CardContent>
           <Typography variant='h4'> {title}</Typography>
-          <Typography>{endTime ? dayjs(endTime).format("YYYY-MM-DD h:mm A") : `No due date`}
+          <Typography>{endTime ? dayjs(endTime).format("YYYY-MM-DD HH:mm ") : `No due date`}
           </Typography>
         </CardContent>
       </ListItemButton>
