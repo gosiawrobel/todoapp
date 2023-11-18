@@ -30,6 +30,9 @@ public class TaskService {
         if (task.getTitle() == null || task.getTitle().isEmpty()) {
             throw new ValidationError("Title is required!");
         }
+        if (task.getEmail() == null || task.getEmail().isEmpty()){
+            throw new ValidationError("Email is required!");
+        }
         task.setReminderSent(false);
         taskRepository.save(task);
         return task;
@@ -69,6 +72,11 @@ public class TaskService {
         return taskRepository.save(existingTask);
     }
 
+    //dodane to text searching
+    public List<Task> searchTaskByTitle(String keyword) {
+       return taskRepository.findByTitleContainingIgnoreCase(keyword);
+    }
+// koniec
     public void deleteTaskById(Long id){
         Task task=taskRepository.findById(id).orElseThrow(() -> new DeleteError("Couldn't delete task, task not found"));
         taskRepository.deleteById(id);

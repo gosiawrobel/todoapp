@@ -1,9 +1,12 @@
 package com.todo.todo_app.Entities;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import org.hibernate.annotations.TimeZoneStorage;
+import org.hibernate.annotations.TimeZoneStorageType;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -18,11 +21,12 @@ public class Task {
     private String title;
     private String description;
     private Integer category;
-//    @JsonFormat(pattern="yyyy-MM-dd")
+
+   @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone="UTC")
     private LocalDateTime startTime;
 
     private Integer priority;
-//    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone="UTC")
     private LocalDateTime endTime;
     private Integer estimate;
     private Integer timeSpent;

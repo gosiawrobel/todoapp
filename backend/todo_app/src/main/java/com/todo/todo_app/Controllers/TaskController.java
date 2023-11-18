@@ -7,10 +7,13 @@ import com.todo.todo_app.Repositories.TaskRepository;
 import com.todo.todo_app.Services.TaskReminder;
 import com.todo.todo_app.Services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -35,6 +38,17 @@ public class TaskController {
         return taskService.getAllTasks();
     }
 
+
+    //dodane do text search
+    @GetMapping("/tasks")
+    public List<Task> searchTask(@RequestParam String keyword){
+        return taskService.searchTaskByTitle(keyword);
+    }
+
+
+
+//koniec
+
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTaskById(@PathVariable("id") Long id) {
         Task task = taskService.getTaskById(id);
@@ -43,6 +57,7 @@ public class TaskController {
 
     @PostMapping("")
     public ResponseEntity<Task> addTask(@RequestBody Task task){
+        System.out.println("Received Date (Backend): " + task.getEndTime());
         Task newTask = taskService.addTask(task);
         taskReminder.sendTaskNotif(newTask);
         return ResponseEntity.ok(newTask);

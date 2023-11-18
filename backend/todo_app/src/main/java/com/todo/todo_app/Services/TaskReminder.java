@@ -12,8 +12,10 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 
@@ -36,10 +38,11 @@ public class TaskReminder {
 
     @Scheduled(cron="0 0/1 * * * ?")
     public void sendTaskReminders() {
-       LocalDateTime now = LocalDateTime.now();
-       LocalDateTime reminderTime = now.plusMinutes(30);
+        Instant currentTime = Instant.now();
+        LocalDateTime currentTimeUTC = LocalDateTime.ofInstant(currentTime, ZoneOffset.UTC);
+        LocalDateTime reminderTime = currentTimeUTC.plusMinutes(30);
 
-        List<Task> upcomingTask = taskRepository.findByEndTimeBetween(now, reminderTime);
+        List<Task> upcomingTask = taskRepository.findByEndTimeBetween(currentTimeUTC, reminderTime);
 
         for (Task task : upcomingTask){
             if (!task.isReminderSent()) {
@@ -53,7 +56,7 @@ public class TaskReminder {
         message.setFrom(senderEmail);
         message.setTo(newTask.getEmail());
         message.setSubject("New task added!");
-        message.setText(("You added a new task: " + newTask.getTitle() + " with due date " + newTask.getEndTime()));
+        message.setText(("You added a new task: " + newTask.getTitle()));
 
         javaMailSender.send(message);
     }
