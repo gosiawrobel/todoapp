@@ -5,12 +5,14 @@ import DoneIcon from '@mui/icons-material/Done';
 import DeleteIcon from '@mui/icons-material/Delete';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { statusColorMapping } from '../utils/utils';
 
 dayjs.extend(utc);
 dayjs.extend(require('dayjs/plugin/timezone'));
 
 
-function Task({onClick, taskId, title, endTime, setTasks, description}) {
+
+function Task({onClick, taskId, title, endTime, setTasks, status}) {
   const deleteTask = (taskId) => {
     fetch(`http://localhost:8080/tasks/${taskId}`,{
     method:'DELETE'
@@ -25,10 +27,12 @@ function Task({onClick, taskId, title, endTime, setTasks, description}) {
       }
     })
   }
+
   return (
     
     <Card>
       <ListItemButton onClick={() => onClick(taskId)}>
+      <div className='dot' style={{background: statusColorMapping[status] }}></div>
         <CardContent>
           <Typography variant='h4' style={{fontFamily: `'Montserrat', sans-serif`, fontWeight:'500'}}> {title}</Typography>
           <Typography>{endTime ? dayjs(endTime).format("YYYY-MM-DD HH:mm ") : `No due date`}

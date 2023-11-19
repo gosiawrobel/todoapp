@@ -6,10 +6,10 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 
-const FilterBy = ({ onTagsListChange, filterType, tagsList}) => {
+const FilterBy = ({ onTagsListChange, filterType, tagsList, singleChoice}) => {
     const [menuOpen, setMenuOpen] = useState(null);
     const open = Boolean(menuOpen);
-    const [tags, setTags]=useState(tagsList)
+    const [tags, setTags]=useState(singleChoice ? [tagsList[0]] :tagsList)
 
 
     useEffect(()=> {
@@ -48,11 +48,17 @@ const FilterBy = ({ onTagsListChange, filterType, tagsList}) => {
                         const isSelected = tags.includes(tagName)
                         return (
                             <MenuItem key={tagName} style={{color:'#ADA0A6'}} onClick={() => {
-                                if (isSelected) {
-                                    setTags((tags) => tags.filter((tag) => tag !== tagName))
+                                if (!singleChoice) {
+                                    if (isSelected) {
+                                        setTags((tags) => tags.filter((tag) => tag !== tagName))
+                                    } else {
+                                        setTags((tags) => tags.concat(tagName).toSorted())
+                                    }
                                 } else {
-                                    setTags((tags) => tags.concat(tagName).toSorted())
+                                    setTags([tagName]) 
+                                    handleClose()
                                 }
+                                //TODO ikona wyboru ma byc zalena od singleChoice - radio button zamiast check
                             }}>{isSelected ? <CheckBoxIcon sx={{pr:'6px'}}/> : <CheckBoxOutlineBlankIcon sx={{pr:'6px'}}/> }{tagName}</MenuItem>
                         )
                     }

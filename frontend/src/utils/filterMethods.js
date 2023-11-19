@@ -20,10 +20,14 @@ function statusFilter(selectedStatuses){
     return this.filter((task) => selectedStatuses.includes(task.status))
 }
 
+function count(cond) {
+   return this.filter(cond).length
+}
 
 
 Array.prototype.priorityFilter = priorityFilter
 Array.prototype.statusFilter = statusFilter
+Array.prototype.count = count
 
 
 export { priorityFilterName, priorityTags, statusTags, statusFilterName}

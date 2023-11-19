@@ -48,17 +48,18 @@ const App = () => {
             setSelectedPath={setSelectedPath}>
                 {selectedPath !== 'Calendar' ? <SortByMenu onSortingMethodChange={(name) => setSortingMethodName(name)}/> : <></>} 
                 <FilterBy onTagsListChange={(priorities)=> setSelectedPriority(priorities)} filterType={priorityFilterName} tagsList={priorityTags}/>
-                <FilterBy onTagsListChange={(statuses) => setSelectedStatuses(statuses)}  filterType={statusFilterName} tagsList={statusTags}/>
+                {selectedPath !== 'Summary' && selectedPath !== 'Tasks done'? <FilterBy onTagsListChange={(statuses) => setSelectedStatuses(statuses)}  filterType={statusFilterName} tagsList={statusTags}/> : <></>} 
+                <FilterBy onTagsListChange={(time)=> console.log(time)} filterType={'time'} tagsList={['all', 'today', 'week']} singleChoice/>
             </Sidebar>
-            <Typography className="copyright" variant="body2" sx={{ mt: 2, color:"#fff"}}>
+            {/* <Typography className="copyright" variant="body2" sx={{ mt: 2, color:"#fff"}}>
                 Copyright 2023
-            </Typography>
+            </Typography> */}
             </Box>
             <Routes>
-                <Route path="/" exact element={<Summary/>}></Route>
+                <Route path="/" exact element={<Summary  tasks={tasks.priorityFilter(selectedPriorities).toSorted(sortingMethodFromName[sortingMethodName])} setTasks={setTasks}/>}></Route>
                 <Route path="/tasks/" element={<AllTasks tasks={tasks.priorityFilter(selectedPriorities).statusFilter(selectedStatuses).toSorted(sortingMethodFromName[sortingMethodName])} setTasks={setTasks}/>} />
                 <Route path="/calendar" element={<Calendar/>} />
-                <Route path="/search/:searchTerm" element={<SearchTask/>} />
+                <Route path="/tasks_done" element={<AllTasks tasks={tasks.priorityFilter(selectedPriorities).statusFilter(['Done']).toSorted(sortingMethodFromName[sortingMethodName])} setTasks={setTasks}/> }/>
             </Routes>
         </Stack>
         </Box>

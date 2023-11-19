@@ -11,5 +11,10 @@ const priorityMapping = {
     }
   }
 
+const statusColorMapping = {
+    'Not started': '#91A6A6',
+    'In progress':'#B19777',
+    'Done': '#608172'
+}
 
-  export { priorityMapping }
+  export { priorityMapping, statusColorMapping }

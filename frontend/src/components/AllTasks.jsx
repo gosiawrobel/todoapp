@@ -14,7 +14,7 @@ import { sortingMethodFromName } from '../utils/compareMtehods';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-function AllTasks({ tasks, setTasks, sortingMethodName }) {
+function AllTasks({ tasks, setTasks}) {
   
   const [popupOpen, setPopupOpen] = useState(false)
   const [selectedTaskId, setSelectedTaskId] = useState()
@@ -34,7 +34,7 @@ function AllTasks({ tasks, setTasks, sortingMethodName }) {
       <Grid container spacing={4}>
         {tasks.map((task) => 
           <Grid key={task.id} item>
-            <Task key={task.id} title={task.title} endTime={task.endTime} onClick={openPopup} email={task.email} setTasks={setTasks} taskId={task.id} />
+            <Task key={task.id} title={task.title} endTime={task.endTime} onClick={openPopup} email={task.email} setTasks={setTasks} taskId={task.id} status={task.status}/>
         </Grid>
         )}
         <Grid item>
