@@ -1,6 +1,6 @@
 import { Dialog, Stack, TextField, IconButton } from "@mui/material";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
@@ -9,15 +9,23 @@ import SendIcon from '@mui/icons-material/Send';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
+const priorityMapping = {
+  formToTask: {
+    "Low": 1,
+    "Medium": 2,
+    "High": 3,
+  },
+  taskToForm: {
+    1: "Low",
+    2: "Medium",
+    3: "High"
+  }
+}
 
 function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
 
@@ -39,7 +47,7 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
             title: "",
             description: "",
             category:"",
-            priority:"",
+            priority:"Medium",
             email: "",
             status: "Not started"
         })
@@ -48,16 +56,28 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
           endTime:"",
         })
       }
-    let task = tasks.find(task => task.id === selectedTaskId)
+    useEffect(() => {
+        if (selectedTaskId === 0) {
+          clearForm()
+        } else {
+          let task = tasks.find(task => task.id === selectedTaskId)
+          if (task) {
+            setForm({
+              id: task.id,
+              title: task.title,
+              description: task.description,
+              category: task.category,
+              priority: priorityMapping.taskToForm[task.priority],
+              email: task.email,
+              status: task.status
+            })
+            setDate({
+                endTime: task.endTime ? dayjs(task.endTime).toDate() : ''
+            })
+          }
+        }
+    }, [selectedTaskId, tasks])
 
-    if (task && task.id !== form.id){
-        setForm(task)
-        setDate({
-            endTime: task.endTime ? dayjs(task.endTime).toDate() : ''
-        })
-    } else if (selectedTaskId === 0 && form.id !== 0) {
-       clearForm()
-    }
 
     const handleDate = (selectedDate, name) => {
         setDate((prevValue) => ({
@@ -86,7 +106,7 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
             description: form.description,
             category: form.category,
             endTime: timeUTC,
-            priority: form.priority,
+            priority: priorityMapping.formToTask[form.priority],
             email: form.email,
             status: form.status
         }
@@ -129,7 +149,7 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
             category: form.category,
             endTime:timeUTC,
             email: form.email,
-            priority: form.priority,
+            priority: priorityMapping.formToTask[form.priority],
             status: form.status
         }
         fetch(`http://localhost:8080/tasks`, {
@@ -166,11 +186,27 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
         clearForm()
     }}><CloseIcon></CloseIcon></IconButton></DialogTitle>
         <DialogContent>
-            <Stack spacing={2} margin={2}>
+            <Stack spacing={2} margin={2} >
                 <TextField required type="text" name="title" label="Title" variant="outlined" value={form.title} onChange={handleForm} ></TextField>
                 <TextField type="text" name="description" id="outlined-multiline-flexible" multiline minRows={3} label="Description" variant="outlined" value={form.description} onChange={handleForm}></TextField>
-                <TextField type="number" name="priority" label="Priority" variant="outlined" value={form.priority} onChange={handleForm}> </TextField>
-                
+            
+               
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+                    <Select
+                    labelId="demo-simple-select-label"
+                    name="priority"
+                    id="demo-simple-select"
+                    value={form.priority}
+                    label="Priority"
+                    onChange={handleForm}
+                    >
+                    <MenuItem value={'Low'}>Low</MenuItem>
+                    <MenuItem value={'Medium'}>Medium</MenuItem>
+                    <MenuItem value={'High'}>High</MenuItem>
+                    </Select>
+                </FormControl>
+
                 <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">Status</InputLabel>
                     <Select

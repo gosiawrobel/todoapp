@@ -1,8 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
+
 html,
 body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    
+}
+* {
+    font-family: 'Montserrat', sans-serif;
 }
 
 a {
@@ -25,7 +31,7 @@ img {
 .path-btn{
     align-items: center;
     justify-content: start;
-    font-weight: bold;
+    font-weight: 600;
     display: flex;
     cursor: pointer;
     background: transparent;
@@ -40,7 +46,15 @@ img {
 
 .path-btn:hover {
     background-color:#4A5953;
-    color: #C9C1C2;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+
+.sort-btn:hover {
+    background-color:white;
+    color: #9B9C9C;
+    transition: all 0.3s ease;
 }
 
   

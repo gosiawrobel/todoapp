@@ -1,10 +1,12 @@
 import React from 'react'
+import { useState } from 'react'
 import { Stack } from '@mui/material'
 import { paths } from '../utils/constants'
 import { useNavigate } from 'react-router-dom'
+import SortByMenu from './SortByMenu'
 
-const Sidebar=({selectedPath, setSelectedPath}) => {
 
+const Sidebar=({selectedPath, setSelectedPath, children}) => {
     const navigate = useNavigate()
 
     function handlePath (path) {
@@ -12,6 +14,7 @@ const Sidebar=({selectedPath, setSelectedPath}) => {
         navigate(`/${path.url}`)
     }
     return (
+    
 
     <Stack 
       direction="row" 
@@ -29,6 +32,7 @@ const Sidebar=({selectedPath, setSelectedPath}) => {
         </button>
     ))}
 
+     {React.Children.map(children, (child) => child )}
     </Stack>
     )
 }
@@ -36,3 +40,4 @@ const Sidebar=({selectedPath, setSelectedPath}) => {
 
 
 export default Sidebar
+

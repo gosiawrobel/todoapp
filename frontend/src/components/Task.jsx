@@ -30,7 +30,7 @@ function Task({onClick, taskId, title, endTime, setTasks, description}) {
     <Card>
       <ListItemButton onClick={() => onClick(taskId)}>
         <CardContent>
-          <Typography variant='h4'> {title}</Typography>
+          <Typography variant='h4' style={{fontFamily: `'Montserrat', sans-serif`, fontWeight:'500'}}> {title}</Typography>
           <Typography>{endTime ? dayjs(endTime).format("YYYY-MM-DD HH:mm ") : `No due date`}
           </Typography>
         </CardContent>

@@ -9,7 +9,7 @@ function Summary() {
 
   return (
     <Stack sx={{flexDirection: { sx: "column", md:"row"}}}>
-      <Box p={2} sx={{overflowY: 'auto', height: '95vh',flex:2}}>
+      <Box p={2} sx={{overflowY: 'auto', height: '92vh',flex:2}}>
         <Typography variant="h4" fontWeight="bold" mb={2} sx={{ color: "white", marginLeft: "20px"}}> Summary
         </Typography>
       </Box>
