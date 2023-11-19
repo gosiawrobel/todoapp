@@ -32,8 +32,8 @@ function AllTasks({ tasks, setTasks, sortingMethodName }) {
     <Container>
       <TaskDetails open={popupOpen} onClose={closePopup} tasks={tasks} setTasks={setTasks} selectedTaskId={selectedTaskId}></TaskDetails>
       <Grid container spacing={4}>
-        {tasks.toSorted(sortingMethodFromName[sortingMethodName]).map((task) => 
-          <Grid item>
+        {tasks.map((task) => 
+          <Grid key={task.id} item>
             <Task key={task.id} title={task.title} endTime={task.endTime} onClick={openPopup} email={task.email} setTasks={setTasks} taskId={task.id} />
         </Grid>
         )}

@@ -10,21 +10,19 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import SortByMenu from './components/SortByMenu'
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-// import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-
-
-// const theme = createMuiTheme({
-//     typography: {
-//         fontFamily:  'Montserrat, sans-serif',
-//     }
-// })
+import FilterBy from './components/FilterBy'
+import { priorityFilterName, priorityTags, statusTags, statusFilterName} from './utils/filterMethods'
+import { sortingMethodFromName } from './utils/compareMtehods'
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
+
 const App = () => {
     const [selectedPath, setSelectedPath] = useState('Summary')
     const[tasks, setTasks] = useState([])
     const [sortingMethodName, setSortingMethodName] = useState('Date ascending')
+    const [selectedPriorities, setSelectedPriority]=useState([])
+    const [selectedStatuses, setSelectedStatuses] = useState([])
 
     const fetchTasks = () => {
         fetch('http://localhost:8080/tasks')
@@ -49,6 +47,8 @@ const App = () => {
             selectedPath={selectedPath}
             setSelectedPath={setSelectedPath}>
                 {selectedPath !== 'Calendar' ? <SortByMenu onSortingMethodChange={(name) => setSortingMethodName(name)}/> : <></>} 
+                <FilterBy onTagsListChange={(priorities)=> setSelectedPriority(priorities)} filterType={priorityFilterName} tagsList={priorityTags}/>
+                <FilterBy onTagsListChange={(statuses) => setSelectedStatuses(statuses)}  filterType={statusFilterName} tagsList={statusTags}/>
             </Sidebar>
             <Typography className="copyright" variant="body2" sx={{ mt: 2, color:"#fff"}}>
                 Copyright 2023
@@ -56,7 +56,7 @@ const App = () => {
             </Box>
             <Routes>
                 <Route path="/" exact element={<Summary/>}></Route>
-                <Route path="/tasks/" element={<AllTasks tasks={tasks} setTasks={setTasks} sortingMethodName={sortingMethodName}/>} />
+                <Route path="/tasks/" element={<AllTasks tasks={tasks.priorityFilter(selectedPriorities).statusFilter(selectedStatuses).toSorted(sortingMethodFromName[sortingMethodName])} setTasks={setTasks}/>} />
                 <Route path="/calendar" element={<Calendar/>} />
                 <Route path="/search/:searchTerm" element={<SearchTask/>} />
             </Routes>

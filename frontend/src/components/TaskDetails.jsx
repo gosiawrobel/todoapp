@@ -13,19 +13,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
-const priorityMapping = {
-  formToTask: {
-    "Low": 1,
-    "Medium": 2,
-    "High": 3,
-  },
-  taskToForm: {
-    1: "Low",
-    2: "Medium",
-    3: "High"
-  }
-}
+import { priorityMapping } from "../utils/utils";
 
 function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
 
@@ -61,13 +49,14 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
           clearForm()
         } else {
           let task = tasks.find(task => task.id === selectedTaskId)
+          clearForm()
           if (task) {
             setForm({
               id: task.id,
               title: task.title,
               description: task.description,
               category: task.category,
-              priority: priorityMapping.taskToForm[task.priority],
+              priority: priorityMapping.intToString[task.priority],
               email: task.email,
               status: task.status
             })
@@ -106,7 +95,7 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
             description: form.description,
             category: form.category,
             endTime: timeUTC,
-            priority: priorityMapping.formToTask[form.priority],
+            priority: priorityMapping.stringToInt[form.priority],
             email: form.email,
             status: form.status
         }
@@ -149,7 +138,7 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
             category: form.category,
             endTime:timeUTC,
             email: form.email,
-            priority: priorityMapping.formToTask[form.priority],
+            priority: priorityMapping.stringToInt[form.priority],
             status: form.status
         }
         fetch(`http://localhost:8080/tasks`, {
@@ -169,7 +158,7 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
           })
 
         onClose()
-        clearForm()
+       
      
         })
         .catch((err) => {
@@ -179,11 +168,9 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
   return (
     <Dialog open={open} onClose={() => {
         onClose()
-        clearForm()
     }} fullWidth> 
     <DialogTitle>{selectedTaskId ? 'Edit task' : 'Create task'} <IconButton style={{float:'right'}} onClick={() => {
         onClose()
-        clearForm()
     }}><CloseIcon></CloseIcon></IconButton></DialogTitle>
         <DialogContent>
             <Stack spacing={2} margin={2} >

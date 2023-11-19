@@ -7,7 +7,7 @@ import { sortNames } from '../utils/compareMtehods';
 const SortByMenu = ({ onSortingMethodChange }) => {
     const [sortByMenuOpen, setSortByMenuOpen] = useState(null);
     const open = Boolean(sortByMenuOpen);
-    const [selected, setSelected]=useState('Date ascending')
+    const [selected, setSelected]=useState(sortNames[0])
 
 
     useEffect(()=> {
@@ -41,7 +41,7 @@ const SortByMenu = ({ onSortingMethodChange }) => {
                 
                 >
                     {sortNames.map((sortName) => (
-                        <MenuItem style={{color: selected === sortName ? '#ADA0A6' : '' }} onClick={() => {
+                        <MenuItem key={sortName} style={{color: selected === sortName ? '#ADA0A6' : '' }} onClick={() => {
                             handleClose()
                             setSelected(sortName)
                         }}>{sortName}</MenuItem>
