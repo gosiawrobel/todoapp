@@ -11,7 +11,7 @@ import SortByMenu from './components/SortByMenu'
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import FilterBy from './components/FilterBy'
-import { priorityFilterName, priorityTags, statusTags, statusFilterName} from './utils/filterMethods'
+import { priorityFilterName, priorityTags, statusTags, statusFilterName, timeTags, timeFilterName} from './utils/filterMethods'
 import { sortingMethodFromName } from './utils/compareMtehods'
 
 dayjs.extend(utc);
@@ -23,6 +23,7 @@ const App = () => {
     const [sortingMethodName, setSortingMethodName] = useState('Date ascending')
     const [selectedPriorities, setSelectedPriority]=useState([])
     const [selectedStatuses, setSelectedStatuses] = useState([])
+    const [selectedTime, setSelectedTime]=useState([])
 
     const fetchTasks = () => {
         fetch('http://localhost:8080/tasks')
@@ -49,17 +50,17 @@ const App = () => {
                 {selectedPath !== 'Calendar' ? <SortByMenu onSortingMethodChange={(name) => setSortingMethodName(name)}/> : <></>} 
                 <FilterBy onTagsListChange={(priorities)=> setSelectedPriority(priorities)} filterType={priorityFilterName} tagsList={priorityTags}/>
                 {selectedPath !== 'Summary' && selectedPath !== 'Tasks done'? <FilterBy onTagsListChange={(statuses) => setSelectedStatuses(statuses)}  filterType={statusFilterName} tagsList={statusTags}/> : <></>} 
-                <FilterBy onTagsListChange={(time)=> console.log(time)} filterType={'time'} tagsList={['all', 'today', 'week']} singleChoice/>
+                <FilterBy onTagsListChange={(time)=> setSelectedTime(time)} filterType={timeFilterName} tagsList={timeTags} singleChoice/>
             </Sidebar>
             {/* <Typography className="copyright" variant="body2" sx={{ mt: 2, color:"#fff"}}>
                 Copyright 2023
             </Typography> */}
             </Box>
             <Routes>
-                <Route path="/" exact element={<Summary  tasks={tasks.priorityFilter(selectedPriorities).toSorted(sortingMethodFromName[sortingMethodName])} setTasks={setTasks}/>}></Route>
-                <Route path="/tasks/" element={<AllTasks tasks={tasks.priorityFilter(selectedPriorities).statusFilter(selectedStatuses).toSorted(sortingMethodFromName[sortingMethodName])} setTasks={setTasks}/>} />
+                <Route path="/" exact element={<Summary  tasks={tasks.priorityFilter(selectedPriorities).timeFilter(selectedTime).toSorted(sortingMethodFromName[sortingMethodName])} setTasks={setTasks}/>}></Route>
+                <Route path="/tasks/" element={<AllTasks tasks={tasks.priorityFilter(selectedPriorities).statusFilter(selectedStatuses).timeFilter(selectedTime).toSorted(sortingMethodFromName[sortingMethodName])} setTasks={setTasks}/>} />
                 <Route path="/calendar" element={<Calendar/>} />
-                <Route path="/tasks_done" element={<AllTasks tasks={tasks.priorityFilter(selectedPriorities).statusFilter(['Done']).toSorted(sortingMethodFromName[sortingMethodName])} setTasks={setTasks}/> }/>
+                <Route path="/tasks_done" element={<AllTasks tasks={tasks.priorityFilter(selectedPriorities).statusFilter(['Done']).timeFilter(selectedTime).toSorted(sortingMethodFromName[sortingMethodName])} setTasks={setTasks}/> }/>
             </Routes>
         </Stack>
         </Box>

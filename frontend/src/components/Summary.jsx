@@ -37,6 +37,7 @@ function Summary({tasks,setTasks}) {
         width={400}
         legend={{ hidden: true }}
       />
+      
       <AllTasks tasks={tasks} setTasks={setTasks}/>
 
       </Grid>
