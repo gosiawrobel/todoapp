@@ -15,6 +15,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { priorityMapping } from "../utils/utils";
 
+
 function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
 
     const [form, setForm]=useState({
@@ -84,6 +85,12 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
         }))
       }
 
+    const handleSubmit = (e) => {
+      e.preventDefault()
+      if (form.email === ''){
+        console.log('Provide email!')
+      }
+    }
     const updateTask = (setTasks, e) => {
         e.preventDefault();
 
@@ -120,7 +127,6 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
             })
           })
         onClose()
-     
         })
         .catch((err) => {
           console.log('Error adding task', err)
@@ -174,10 +180,10 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
     }}><CloseIcon></CloseIcon></IconButton></DialogTitle>
         <DialogContent>
             <Stack spacing={2} margin={2} >
+             
                 <TextField required type="text" name="title" label="Title" variant="outlined" value={form.title} onChange={handleForm} ></TextField>
                 <TextField type="text" name="description" id="outlined-multiline-flexible" multiline minRows={3} label="Description" variant="outlined" value={form.description} onChange={handleForm}></TextField>
-            
-               
+
                 <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">Priority</InputLabel>
                     <Select
@@ -210,7 +216,7 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
                     </Select>
                 </FormControl>
    
-                <TextField type="text" name="email" label="email" variant="outlined" value={form.email} onChange={handleForm}> </TextField>
+                <TextField required type="email" name="email" label="Email" variant="outlined" value={form.email} onChange={handleForm}> onSubmit={handleSubmit} </TextField>
                 <DemoContainer components={['DateField']}>
                     <DateTimePicker type="date" timeSteps={{hours: 1, minutes: 1, seconds: 1}} name="endTime" ampm={false} label="Date" value={dayjs(date.endTime)} onChange={(selectedDate) => handleDate(selectedDate, "endTime")}/>
               </DemoContainer>

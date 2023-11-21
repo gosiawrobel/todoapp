@@ -6,6 +6,8 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import AllTasks from './AllTasks';
 import  { Container } from '@mui/material';
 import { statusColorMapping } from '../utils/utils';
+import Watch from './Watch';
+
 
 function Summary({tasks,setTasks}) {
   const data = [
@@ -16,8 +18,10 @@ function Summary({tasks,setTasks}) {
   return (
 
     <Container>
-
+      
       <Grid container>
+        <Grid item xs={12} >
+      <div className='pie-div'>
       <PieChart sx={{stroke: 'none'}}
         colors={[statusColorMapping['Not started'], statusColorMapping['In progress'], statusColorMapping['Done']]}
         series={[
@@ -36,9 +40,17 @@ function Summary({tasks,setTasks}) {
         height={450}
         width={400}
         legend={{ hidden: true }}
-      />
-      
+      >
+      </PieChart>
+        <Watch />
+
+      </div>
+        </Grid>
+        <Grid item  xs={12} style={{ position: 'relative', textAlign: 'center' }}>
+        </Grid>
+      <Grid style={{marginTop: 30}}>
       <AllTasks tasks={tasks} setTasks={setTasks}/>
+      </Grid>
 
       </Grid>
     </Container>

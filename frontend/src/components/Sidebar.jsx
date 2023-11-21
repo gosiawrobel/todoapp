@@ -11,19 +11,21 @@ const Sidebar=({selectedPath, setSelectedPath, children}) => {
 
     function handlePath (path) {
         setSelectedPath(path.name)
-        navigate(`/${path.url}`)
+        navigate(`${path.url}`)
     }
     return (
     
 
     <Stack 
       direction="row" 
-      sx={{overflow:"auto", height: {sx: 'auto', md:'95%'}, flexDirection: {md:'column'}, marginTop:'10px'
+      sx={{overflow:"auto", height: {sx: 'auto', md:'95%'}, flexDirection: {md:'column'}, marginTop:'5px'
       }}
       > 
     {paths.map((path) => (
         <button className="path-btn" 
-        onClick={() => {handlePath(path)}}
+        onClick={() => {
+            handlePath(path)}
+        }
         style={{background: path.name === selectedPath && '#5A6863', whiteSpace: 'nowrap', color: 'white', marginBottom:"15px"}}
             key={path.name}
             >

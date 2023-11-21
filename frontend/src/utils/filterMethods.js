@@ -10,7 +10,6 @@ const priorityFilterName='priority'
 
 function priorityFilter(selectedPriorities) {
     const intSelectedPriorities = selectedPriorities.map((selectedPriority) => priorityMapping.stringToInt[selectedPriority] )
-    console.log(this)
     return this.filter((task) => intSelectedPriorities.includes(task.priority))
     
 }

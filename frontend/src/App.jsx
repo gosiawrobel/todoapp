@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Box } from '@mui/material'
-import { Navbar, Summary, AllTasks, Calendar, SearchTask, Sidebar} from './components'
+import { Navbar, Summary, AllTasks, Calendar, SearchTask, Sidebar, CalendarView} from './components'
 import { useState, useEffect} from 'react'
 import { Stack, Typography} from '@mui/material'
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -13,16 +13,19 @@ import timezone from 'dayjs/plugin/timezone';
 import FilterBy from './components/FilterBy'
 import { priorityFilterName, priorityTags, statusTags, statusFilterName, timeTags, timeFilterName} from './utils/filterMethods'
 import { sortingMethodFromName } from './utils/compareMtehods'
+import NotFound from './components/NotFound'
+import MyCalendar from './components/MyCalendar'
+import { pathNameFromUrl as selectedPathFromUrl } from './utils/constants'
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 const App = () => {
-    const [selectedPath, setSelectedPath] = useState('Summary')
+    const [selectedPath, setSelectedPath] = useState(selectedPathFromUrl(window.location.pathname))
     const[tasks, setTasks] = useState([])
     const [sortingMethodName, setSortingMethodName] = useState('Date ascending')
     const [selectedPriorities, setSelectedPriority]=useState([])
-    const [selectedStatuses, setSelectedStatuses] = useState([])
+    const [selectedStatuses, setSelectedStatuses] = useState(statusTags)
     const [selectedTime, setSelectedTime]=useState([])
 
     const fetchTasks = () => {
@@ -35,6 +38,7 @@ const App = () => {
       }
       useEffect(()=>{
         fetchTasks()
+        console.log('use effect')
       }, []);
 
     return (
@@ -52,15 +56,15 @@ const App = () => {
                 {selectedPath !== 'Summary' && selectedPath !== 'Tasks done'? <FilterBy onTagsListChange={(statuses) => setSelectedStatuses(statuses)}  filterType={statusFilterName} tagsList={statusTags}/> : <></>} 
                 <FilterBy onTagsListChange={(time)=> setSelectedTime(time)} filterType={timeFilterName} tagsList={timeTags} singleChoice/>
             </Sidebar>
-            {/* <Typography className="copyright" variant="body2" sx={{ mt: 2, color:"#fff"}}>
-                Copyright 2023
-            </Typography> */}
             </Box>
             <Routes>
-                <Route path="/" exact element={<Summary  tasks={tasks.priorityFilter(selectedPriorities).timeFilter(selectedTime).toSorted(sortingMethodFromName[sortingMethodName])} setTasks={setTasks}/>}></Route>
-                <Route path="/tasks/" element={<AllTasks tasks={tasks.priorityFilter(selectedPriorities).statusFilter(selectedStatuses).timeFilter(selectedTime).toSorted(sortingMethodFromName[sortingMethodName])} setTasks={setTasks}/>} />
-                <Route path="/calendar" element={<Calendar/>} />
+             
+                <Route path="/" exact element={<Summary tasks={tasks.priorityFilter(selectedPriorities).timeFilter(selectedTime).toSorted(sortingMethodFromName[sortingMethodName])} setTasks={setTasks}/>}></Route>
+                <Route path="/tasks" element={<AllTasks foo={`to ja`}tasks={tasks.priorityFilter(selectedPriorities).statusFilter(selectedStatuses).timeFilter(selectedTime).toSorted(sortingMethodFromName[sortingMethodName])} setTasks={setTasks}/>} />
+                <Route path="/calendar" element={<MyCalendar tasks={tasks} setTasks={setTasks}/>} />
+
                 <Route path="/tasks_done" element={<AllTasks tasks={tasks.priorityFilter(selectedPriorities).statusFilter(['Done']).timeFilter(selectedTime).toSorted(sortingMethodFromName[sortingMethodName])} setTasks={setTasks}/> }/>
+                <Route element={<NotFound/>}/>
             </Routes>
         </Stack>
         </Box>
