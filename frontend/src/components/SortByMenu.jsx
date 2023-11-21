@@ -9,7 +9,6 @@ const SortByMenu = ({ onSortingMethodChange }) => {
     const open = Boolean(sortByMenuOpen);
     const [selected, setSelected]=useState(sortNames[0])
 
-
     useEffect(()=> {
         onSortingMethodChange(selected)
     },[selected])
@@ -28,18 +27,15 @@ const SortByMenu = ({ onSortingMethodChange }) => {
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
                     onClick={handleClick}
-                    style={{ marginBottom:'15px', whiteSpace: 'nowrap'}}
-
-                ><SortIcon style ={{ paddingRight: '10px'}} />
+                    style={{ marginBottom:'15px', whiteSpace: 'nowrap'}}>
+                    <SortIcon style ={{ paddingRight: '10px'}} />
                     Sort By
                 </button>
                 <Menu
                     id="basic-menu"
                     anchorEl={sortByMenuOpen} 
                     open={open}
-                    onClose={handleClose}
-                
-                >
+                    onClose={handleClose}>
                     {sortNames.map((sortName) => (
                         <MenuItem key={sortName} style={{color: selected === sortName ? '#ADA0A6' : '' }} onClick={() => {
                             handleClose()

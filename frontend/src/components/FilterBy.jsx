@@ -22,7 +22,6 @@ const FilterBy = ({ onTagsListChange, filterType, tagsList, singleChoice}) => {
       const handleClose = () => {
         setMenuOpen(null);
       };
-
         return (
             <>
                 <button className='path-btn sort-btn'

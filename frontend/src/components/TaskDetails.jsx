@@ -14,163 +14,121 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { priorityMapping } from "../utils/utils";
-
+import { updateTask, createNewTask } from "../utils/taskUtils";
 
 function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
 
-    const [form, setForm]=useState({
-        id:'',
+  const [form, setForm]=useState({
+      id:'',
+      title: "",
+      description: "",
+      category:"",
+      priority:"",
+      email:'example@mail.com',
+      status: ""
+  })
+  const today = new Date()
+  const currentDate = dayjs.utc(today.endTime).local().format("YYYY-MM-DD HH:mm ")
+  const [date, setDate] = useState({
+    endTime:currentDate,
+  })
+
+  const clearForm =()=>{
+    setForm({
+        id:0,
         title: "",
         description: "",
         category:"",
-        priority:"",
-        email:"",
-        status: ""
-      })
-      const [date, setDate] = useState({
-        endTime:"",
-      })
-      const clearForm =()=>{
+        email: 'example@mail.com',
+        priority:"Medium",
+        status: "Not started"
+    })
+    setDate({
+        endTime:currentDate,
+    })
+  }
+  useEffect(() => {
+    if (selectedTaskId === 0) {
+      clearForm()
+    } else {
+      let task = tasks.find(task => task.id === selectedTaskId)
+      clearForm()
+      if (task) {
         setForm({
-            id:0,
-            title: "",
-            description: "",
-            category:"",
-            priority:"Medium",
-            email: "",
-            status: "Not started"
+          id: task.id,
+          title: task.title,
+          description: task.description,
+          category: task.category,
+          priority: priorityMapping.intToString[task.priority],
+          email: task.email,
+          status: task.status
         })
         setDate({
-          startTime: "",
-          endTime:"",
+          endTime: task.endTime ? dayjs(task.endTime).toDate() : ''
         })
-      }
-    useEffect(() => {
-        if (selectedTaskId === 0) {
-          clearForm()
-        } else {
-          let task = tasks.find(task => task.id === selectedTaskId)
-          clearForm()
-          if (task) {
-            setForm({
-              id: task.id,
-              title: task.title,
-              description: task.description,
-              category: task.category,
-              priority: priorityMapping.intToString[task.priority],
-              email: task.email,
-              status: task.status
-            })
-            setDate({
-                endTime: task.endTime ? dayjs(task.endTime).toDate() : ''
-            })
-          }
-        }
-    }, [selectedTaskId, tasks])
-
-
-    const handleDate = (selectedDate, name) => {
-        setDate((prevValue) => ({
-          ...prevValue,
-          [name]: selectedDate,
-        }))
-      }
-
-
-      const handleForm=(event) => {
-        const {name, value} = event.target
-        setForm((prevValue) => ({
-          ...prevValue,
-          [name]:value,
-        }))
-      }
-
-    const handleSubmit = (e) => {
-      e.preventDefault()
-      if (form.email === ''){
-        console.log('Provide email!')
       }
     }
-    const updateTask = (setTasks, e) => {
-        e.preventDefault();
+  }, [selectedTaskId, tasks])
 
-        const timeUTC = dayjs(date.endTime).utcOffset(0).format('YYYY-MM-DDTHH:mm:ss')
+  const handleDate = (selectedDate, name) => {
+    setDate((prevValue) => ({
+      ...prevValue,
+      [name]: selectedDate,
+    }))
+  }
 
-        const data =  {
-            id: selectedTaskId,
-            title: form.title,
-            description: form.description,
-            category: form.category,
-            endTime: timeUTC,
-            priority: priorityMapping.stringToInt[form.priority],
-            email: form.email,
-            status: form.status
-        }
-        fetch(`http://localhost:8080/tasks/${selectedTaskId}`, {
-            method:'PUT',
-            headers:{
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then ((resp) => resp.json())
-        .then((data) => 
-            {
-          
-          data.endTime = dayjs.utc(data.endTime).local().format("YYYY-MM-DD HH:mm ")
-          setTasks((tasks) => {
-            return tasks.map(task => {
-                if (task.id === data.id) {
-                    return data
-                } 
-                return task
-            })
-          })
-        onClose()
-        })
-        .catch((err) => {
-          console.log('Error adding task', err)
-        })
-    } 
+  const handleForm=(event) => {
+    const {name, value} = event.target
+    setForm((prevValue) => ({
+      ...prevValue,
+      [name]:value,
+    }))
+  }
+  const isValidEmail = (email) => {
+    return /\S+@\S+\.\S+/.test(email) && email !== '';
+  }
+  
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (form.email === ''){
+    console.log('Provide email!')
+  }
+}
+  const updateTaskSubmit = (setTasks, e) => {
+      e.preventDefault()
+    if (!isValidEmail(form.email)){
+      return
+    }
+    const task =  {
+        id: selectedTaskId,
+        title: form.title,
+        description: form.description,
+        category: form.category,
+        endTime: date.endTime,
+        priority: priorityMapping.stringToInt[form.priority],
+        email: form.email,
+        status: form.status
+    }
+      updateTask(setTasks, task, onClose, (err)=>console.log(err))
+  } 
 
     const createTask = (setTasks, e) => {
         e.preventDefault();
-
-        const timeUTC = dayjs(date.endTime).utcOffset(0).format('YYYY-MM-DDTHH:mm:ss')
-
-        const data =  {
+        if (!isValidEmail(form.email)){
+          return
+        }
+        const task =  {
             title: form.title,
             description: form.description,
             category: form.category,
-            endTime:timeUTC,
+            endTime:date.endTime,
             email: form.email,
             priority: priorityMapping.stringToInt[form.priority],
             status: form.status
         }
-        fetch(`http://localhost:8080/tasks`, {
-            method:'POST',
-            headers:{
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then ((resp) => resp.json())
-        .then((data) => 
-            {
-          console.log('New task added', data)
-          data.endTime = dayjs.utc(data.endTime).local().format("YYYY-MM-DD HH:mm ")
-          setTasks((tasks) => {
-           return tasks.concat(data)
-          })
-
-        onClose()
-       
-     
-        })
-        .catch((err) => {
-          console.log('Error adding task', err)
-        })
+        createNewTask(setTasks, task, onClose) 
     } 
+
   return (
     <Dialog open={open} onClose={() => {
         onClose()
@@ -216,7 +174,7 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
                     </Select>
                 </FormControl>
    
-                <TextField required type="email" name="email" label="Email" variant="outlined" value={form.email} onChange={handleForm}> onSubmit={handleSubmit} </TextField>
+                <TextField required type="email" name="email" label="Email" variant={"outlined"} {...isValidEmail(form.email) ? {} : {id:"outlined-error-helper-text", helperText:"Provide valid email!", error:true}} value={form.email} onChange={handleForm}></TextField>
                 <DemoContainer components={['DateField']}>
                     <DateTimePicker type="date" timeSteps={{hours: 1, minutes: 1, seconds: 1}} name="endTime" ampm={false} label="Date" value={dayjs(date.endTime)} onChange={(selectedDate) => handleDate(selectedDate, "endTime")}/>
               </DemoContainer>
@@ -227,7 +185,7 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
             if (form.id === 0) {
                 createTask(setTasks,e)
             } else {
-                updateTask(setTasks, e)
+              updateTaskSubmit(setTasks, e)
             }
             }} >
         <SendIcon className='icon' fontSize="large"/>

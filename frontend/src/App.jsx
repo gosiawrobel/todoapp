@@ -16,6 +16,7 @@ import { sortingMethodFromName } from './utils/compareMtehods'
 import NotFound from './components/NotFound'
 import MyCalendar from './components/MyCalendar'
 import { pathNameFromUrl as selectedPathFromUrl } from './utils/constants'
+import { fetchTasks } from './utils/taskUtils'
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -28,16 +29,8 @@ const App = () => {
     const [selectedStatuses, setSelectedStatuses] = useState(statusTags)
     const [selectedTime, setSelectedTime]=useState([])
 
-    const fetchTasks = () => {
-        fetch('http://localhost:8080/tasks')
-        .then((resp)=> resp.json())
-        .then((data) => setTasks(data.map((task) => {
-          task.endTime = dayjs.utc(task.endTime).local().format("YYYY-MM-DD HH:mm ")
-          return task
-        })))
-      }
       useEffect(()=>{
-        fetchTasks()
+        fetchTasks(setTasks)
         console.log('use effect')
       }, []);
 

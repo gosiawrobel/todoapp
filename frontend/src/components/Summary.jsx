@@ -20,38 +20,31 @@ function Summary({tasks,setTasks}) {
     <Container>
       
       <Grid container>
-        <Grid item xs={12} >
-      <div className='pie-div'>
-      <PieChart sx={{stroke: 'none'}}
-        colors={[statusColorMapping['Not started'], statusColorMapping['In progress'], statusColorMapping['Done']]}
-        series={[
-          {
-            innerRadius: 150,
-            outerRadius: 200,
-            paddingAngle: 5,
-            cornerRadius: 8,
-            startAngle: -90,
-            endAngle: 270,
-            cx: 195,
-            cy: 220,
-            data,
-          },
-        ]}
-        height={450}
-        width={400}
-        legend={{ hidden: true }}
-      >
-      </PieChart>
-        <Watch />
-
-      </div>
+        <Grid style={{marginBottom:30}} item xs={12} >
+          <div className='pie-div'>
+            <PieChart sx={{stroke: 'none'}}
+              colors={[statusColorMapping['Not started'], statusColorMapping['In progress'], statusColorMapping['Done']]}
+              series={[
+                {
+                  innerRadius: 150,
+                  outerRadius: 200,
+                  paddingAngle: 5,
+                  cornerRadius: 8,
+                  startAngle: -90,
+                  endAngle: 270,
+                  cx: 195,
+                  cy: 220,
+                  data,
+                },
+              ]}
+              height={450}
+              width={400}
+              legend={{ hidden: true }}>
+            </PieChart>
+            <Watch />
+          </div>
         </Grid>
-        <Grid item  xs={12} style={{ position: 'relative', textAlign: 'center' }}>
-        </Grid>
-      <Grid style={{marginTop: 30}}>
-      <AllTasks tasks={tasks} setTasks={setTasks}/>
-      </Grid>
-
+        <AllTasks tasks={tasks} setTasks={setTasks}/>
       </Grid>
     </Container>
    

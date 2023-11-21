@@ -8,6 +8,7 @@ import { Calendar } from "@fullcalendar/core";
 import listPlugin from "@fullcalendar/list";
 import dayjs from 'dayjs';
 import { statusColorMapping } from '../utils/utils';
+import { updateTask } from '../utils/taskUtils';
 
 function CalendarView({ setTasks, tasks}) {
   
@@ -27,28 +28,7 @@ function CalendarView({ setTasks, tasks}) {
     } else {
       return {eventBackgroundColor: '#9c4e4e'}
     }
-
   }
-  function updateTaskinDB(task){
-    task.endTime = dayjs(task.endTime).utcOffset(0).format('YYYY-MM-DDTHH:mm:ss')
-    fetch(`http://localhost:8080/tasks/${task.id}`, {
-      method:'PUT',
-      headers:{
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(task)
-    })
-      .then((resp) => resp.json())
-      .then((updatedTask) =>  {
-        updatedTask.endTime = dayjs.utc(updatedTask.endTime).local().format("YYYY-MM-DD HH:mm ")
-        setTasks((tasks) => tasks.map((task) => task.id == updatedTask.id ? updatedTask : task) )
-      })
-      .catch((err) => {
-        console.log(`Error during editing task ${err}`)
-      })
-  }
-
-  
   // const [view, setView] = useState('dayGridMonth')
   // const changeResolution = () => setView(window.innerWidth < 760 ? 'list' : 'dayGridMonth')
   
@@ -61,16 +41,11 @@ function CalendarView({ setTasks, tasks}) {
   //   return () => { window.removeEventListener('resize', handleResize)}
   // },[])
 
+  
   const handleEventDrop=(drop) => {
-    const updateTaskDate = tasks.map((task)=> {
-     if (task.id == drop.event.id){
-      const updatedTask = { ...task, endTime: drop.event.startStr}
-      updateTaskinDB(updatedTask)
-      return updatedTask
-     }
-    return task
-    })
-    setTasks(updateTaskDate)
+    const taskToUpdate = tasks.find((task)=> task.id == drop.event.id) 
+    taskToUpdate.endTime = drop.event.startStr;
+    updateTask(setTasks, taskToUpdate)
   }
 
   // useEffect(() => {
@@ -91,8 +66,6 @@ function CalendarView({ setTasks, tasks}) {
 
   //   return window.removeEventListener('resize', handleResize)
   // })
-
-
 
   return (
     <Container>
