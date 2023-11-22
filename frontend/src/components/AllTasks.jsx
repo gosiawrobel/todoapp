@@ -10,6 +10,8 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import { sortingMethodFromName } from '../utils/compareMtehods';
+import { COLORS } from '../utils/colors';
+
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -41,8 +43,8 @@ function AllTasks({tasks, setTasks}) {
         </Grid>
       </Grid>
       <Box sx={{  '& > :not(style)': { m: 1 } }}>
-      <Fab color="info" onClick={() => openPopup(0)} aria-label="add" sx={{ background:'#5A6863',  position: 'fixed', bottom: 16, right: 16 ,'&:hover': {
-        backgroundColor:'#3e4845'
+      <Fab color="info" onClick={() => openPopup(0)} aria-label="add" sx={{ background:COLORS.mainGreen,  position: 'fixed', bottom: 16, right: 16 ,'&:hover': {
+        backgroundColor:COLORS.hoverAddBtn
       }}}>
         <AddIcon />
       </Fab>

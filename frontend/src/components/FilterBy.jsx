@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-
+import { COLORS } from '../utils/colors';
 
 const FilterBy = ({ onTagsListChange, filterType, tagsList, singleChoice}) => {
     const [menuOpen, setMenuOpen] = useState(null);
@@ -46,7 +46,7 @@ const FilterBy = ({ onTagsListChange, filterType, tagsList, singleChoice}) => {
 
                         const isSelected = tags.includes(tagName)
                         return (
-                            <MenuItem key={tagName} style={{color:'#ADA0A6'}} onClick={() => {
+                            <MenuItem key={tagName} style={{color:COLORS.filterElements}} onClick={() => {
                                 if (!singleChoice) {
                                     if (isSelected) {
                                         setTags((tags) => tags.filter((tag) => tag !== tagName))

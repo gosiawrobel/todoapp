@@ -2,6 +2,7 @@ import React from 'react'
 import { Stack } from '@mui/material'
 import { paths } from '../utils/constants'
 import { useNavigate } from 'react-router-dom'
+import { COLORS } from '../utils/colors'
 
 const Sidebar=({selectedPath, setSelectedPath, children}) => {
     const navigate = useNavigate()
@@ -20,9 +21,9 @@ const Sidebar=({selectedPath, setSelectedPath, children}) => {
         onClick={() => {
             handlePath(path)}
         }
-        style={{background: path.name === selectedPath && '#5A6863', whiteSpace: 'nowrap', color: 'white', marginBottom:"15px"}}
+        style={{background: path.name === selectedPath && COLORS.mainGreen, whiteSpace: 'nowrap', color: COLORS.white, marginBottom:"15px"}}
             key={path.name}>
-            <span style={{color: path.name === selectedPath ? 'white' : '#9B9C9C', marginRight:'15px'}}>{path.icon}</span>
+            <span style={{color: path.name === selectedPath ? COLORS.white : COLORS.sidbarOnClickTxt, marginRight:'15px'}}>{path.icon}</span>
             <span style={{ opacity: path.name === selectedPath ? '1' : '0.8'}}>{path.name}</span>
         </button>
     ))}

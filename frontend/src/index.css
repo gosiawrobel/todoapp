@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
+/* @import './utils/colors.js'; */
 
 html,
 body {
@@ -135,3 +136,117 @@ tr {
 
 
 @media screen and (max-width:650px) { .fc-toolbar.fc-header-toolbar {flex-direction:column;} .fc-toolbar-chunk { display: table-row; text-align:center; padding:5px 0; } }
+
+@media screen and (min-width:320px){}
+@media (min-width:480px) {
+    
+}
+.fc-dayGridMonth-view {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+
+/* .fc-toolbar.fc-header-toolbar {flex-direction:column;}  */
+.fc-toolbar-chunk { 
+    display: table-row; 
+    text-align:center; 
+    padding:px 0; 
+    margin-left: 40px; 
+    margin-right: 40px;
+}
+
+.calendar-box {
+    width: 100%;
+    height:100%;
+    margin-bottom: 30px;
+    /* display: flex; */
+    /* align-items: center; */
+}
+
+/* tbody {
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+} */
+
+.fc-list-event-title{
+    /* margin-left: 30px; */
+}
+.fc-event {
+    gap: 3px;
+    margin-bottom: 5px;
+}
+
+.fc-list-event-dot{
+   
+}
+.fc-list-event-graphic { 
+    margin-left: 13px;
+}
+.element-style{
+
+}
+:root {
+    --fc-list-event-hover-bg-color: transparent;
+    --fc-today-bg-color: #899791;
+}
+
+
+.fc-list-event:hover {
+    font-weight: 500;
+}
+
+td.fc-list-event-title, td.fc-list-event-time, td.fc-list-event-graphic {
+    border: none !important;
+}
+
+.fc-event-main { 
+    display: flex;
+    flex-direction: column;
+}
+
+.fc-event-main-frame{
+    flex-direction: row;
+} 
+
+.fc-event-main-frame {
+    min-height: auto;
+}
+
+.fc-v-event .fc-event-title {
+    overflow: visible;
+    min-height: auto;
+    
+}
+
+.fc-v-event, .fc-event-main-frame {
+    flex-direction: row !important;
+}
+/* th {
+    border-top: none;
+} */
+/* .fc-today-bg-color{
+    background-color: #fff;
+} */
+
+.fc-timegrid-event, .fc-timegrid-more-link{
+border-radius: 8px;
+}
+
+.fc-timegrid-event-harness > .fc-timegrid-event {
+    inset: 0px;
+    position: absolute;
+}
+
+.fc-view { 
+    margin-right: 30px;
+    margin-left: 30px;
+}
+
+.css-bhp9pd-MuiPaper-root-MuiCard-root {
+    /* background-color: #f5f5f5; */
+    /* background: #ffffff; */
+    /* background-color: #F2F2F2 !important; */
+}

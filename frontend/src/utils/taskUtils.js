@@ -7,14 +7,14 @@ const fetchTasks = (setTasks) => {
     fetch('http://localhost:8080/tasks')
     .then((resp)=> resp.json())
     .then((data) => setTasks(data.map((task) => {
-      task.endTime = dayjs.utc(task.endTime).local().format("YYYY-MM-DD HH:mm ")
+      task.dueDate = dayjs.utc(task.dueDate).local().format("YYYY-MM-DD HH:mm ")
       return task
     })))
   }
 
 
   const updateTask = (setTasks, task, onSuccess, onFail) => {
-    task.endTime = dayjs(task.endTime).utcOffset(0).format('YYYY-MM-DDTHH:mm:ss')
+    task.dueDate = dayjs(task.dueDate).utcOffset(0).format('YYYY-MM-DDTHH:mm:ss')
     
     fetch(`http://localhost:8080/tasks/${task.id}`, {
         method:'PUT',
@@ -27,7 +27,7 @@ const fetchTasks = (setTasks) => {
     .then ((resp) => resp.json())
     .then((respTask) => 
     {
-        respTask.endTime = dayjs.utc(respTask.endTime).local().format("YYYY-MM-DD HH:mm ")
+        respTask.dueDate = dayjs.utc(respTask.dueDate).local().format("YYYY-MM-DD HH:mm ")
         setTasks((tasks) => {
             return tasks.map(task => {
                 if (task.id === respTask.id) {
@@ -45,7 +45,7 @@ const fetchTasks = (setTasks) => {
 
 
 const createNewTask = (setTasks, task, onSuccess, onFail) => {
-    task.endTime = dayjs(task.endTime).utcOffset(0).format
+    task.dueDate = dayjs(task.dueDate).utcOffset(0).format
     ('YYYY-MM-DDTHH:mm:ss')
     task.id = null
     
@@ -60,7 +60,7 @@ const createNewTask = (setTasks, task, onSuccess, onFail) => {
     .then ((resp) => resp.json())
     .then((respTask) => 
     {
-        respTask.endTime = dayjs.utc(respTask.endTime).local().format("YYYY-MM-DD HH:mm ")
+        respTask.dueDate = dayjs.utc(respTask.dueDate).local().format("YYYY-MM-DD HH:mm ")
         setTasks((tasks) => {
             return tasks.concat(respTask)
         })

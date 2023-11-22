@@ -1,9 +1,9 @@
 const priorityAscending = (a,b) => {
     if (a.priority > b.priority) return 1
     if (a.priority === b.priority) {
-        if (a.endTime > b.endTime) return 1
-        if (a.endTime === b.endTime) return 0
-        if (a.endTime < b.endTime) return -1
+        if (a.dueDate > b.dueDate) return 1
+        if (a.dueDate === b.dueDate) return 0
+        if (a.dueDate < b.dueDate) return -1
     } 
     if (a.priority < b.priority ) return -1
 }
@@ -11,13 +11,13 @@ const priorityAscending = (a,b) => {
 const priorityDescending = (a,b) => -priorityAscending(a,b)
 
 const dateAscending = (a,b) => {
-    if (a.endTime > b.endTime) return 1
-    if (a.endTime === b.endTime) {
+    if (a.dueDate > b.dueDate) return 1
+    if (a.dueDate === b.dueDate) {
         if (a.priority > b.priority) return 1
         if (a.priority === b.priority) return 0
         if (a.priority < b.priority) return -1
     } 
-    if (a.endTime < b.endTime ) return -1
+    if (a.dueDate < b.dueDate ) return -1
 }
 
 const dateDescending = (a,b) => -dateAscending(a,b)

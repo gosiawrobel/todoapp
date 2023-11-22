@@ -3,6 +3,7 @@ import Menu from '@mui/material/Menu';
 import SortIcon from '@mui/icons-material/Sort';
 import MenuItem from '@mui/material/MenuItem';
 import { sortNames } from '../utils/compareMtehods';
+import { COLORS } from '../utils/colors';
 
 const SortByMenu = ({ onSortingMethodChange }) => {
     const [sortByMenuOpen, setSortByMenuOpen] = useState(null);
@@ -37,7 +38,7 @@ const SortByMenu = ({ onSortingMethodChange }) => {
                     open={open}
                     onClose={handleClose}>
                     {sortNames.map((sortName) => (
-                        <MenuItem key={sortName} style={{color: selected === sortName ? '#ADA0A6' : '' }} onClick={() => {
+                        <MenuItem key={sortName} style={{color: selected === sortName ? COLORS.filterElements : '' }} onClick={() => {
                             handleClose()
                             setSelected(sortName)
                         }}>{sortName}</MenuItem>

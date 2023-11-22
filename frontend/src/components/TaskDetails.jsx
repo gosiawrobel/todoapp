@@ -28,9 +28,9 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
       status: ""
   })
   const today = new Date()
-  const currentDate = dayjs.utc(today.endTime).local().format("YYYY-MM-DD HH:mm ")
+  const currentDate = dayjs.utc(today.dueDate).local().format("YYYY-MM-DD HH:mm ")
   const [date, setDate] = useState({
-    endTime:currentDate,
+    dueDate:currentDate,
   })
 
   const clearForm =()=>{
@@ -44,7 +44,7 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
         status: "Not started"
     })
     setDate({
-        endTime:currentDate,
+        dueDate:currentDate,
     })
   }
   useEffect(() => {
@@ -64,7 +64,7 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
           status: task.status
         })
         setDate({
-          endTime: task.endTime ? dayjs(task.endTime).toDate() : ''
+          dueDate: task.dueDate ? dayjs(task.dueDate).toDate() : ''
         })
       }
     }
@@ -104,7 +104,7 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
         title: form.title,
         description: form.description,
         category: form.category,
-        endTime: date.endTime,
+        dueDate: date.dueDate,
         priority: priorityMapping.stringToInt[form.priority],
         email: form.email,
         status: form.status
@@ -121,7 +121,7 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
             title: form.title,
             description: form.description,
             category: form.category,
-            endTime:date.endTime,
+            dueDate:date.dueDate,
             email: form.email,
             priority: priorityMapping.stringToInt[form.priority],
             status: form.status
@@ -176,7 +176,7 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
    
                 <TextField required type="email" name="email" label="Email" variant={"outlined"} {...isValidEmail(form.email) ? {} : {id:"outlined-error-helper-text", helperText:"Provide valid email!", error:true}} value={form.email} onChange={handleForm}></TextField>
                 <DemoContainer components={['DateField']}>
-                    <DateTimePicker type="date" timeSteps={{hours: 1, minutes: 1, seconds: 1}} name="endTime" ampm={false} label="Date" value={dayjs(date.endTime)} onChange={(selectedDate) => handleDate(selectedDate, "endTime")}/>
+                    <DateTimePicker type="date" timeSteps={{hours: 1, minutes: 1, seconds: 1}} name="dueDate" ampm={false} label="Date" value={dayjs(date.dueDate)} onChange={(selectedDate) => handleDate(selectedDate, "dueDate")}/>
               </DemoContainer>
             </Stack>
         </DialogContent>

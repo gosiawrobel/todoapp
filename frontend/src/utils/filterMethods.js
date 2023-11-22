@@ -41,12 +41,12 @@ function timeFilter(selectedTime){
             return this
         case 'Today':
             return this.filter((task) => {
-                const taskDate = new Date(task.endTime)
+                const taskDate = new Date(task.dueDate)
                 return taskDate.getDay() === currentDate.getDay() && taskDate.getFullYear() === currentDate.getFullYear()}
                 )
         case 'Week':
             return this.filter((task) => {
-                const taskDate = new Date(task.endTime)
+                const taskDate = new Date(task.dueDate)
                 return dayjs(taskDate).week() === dayjs(currentDate).week() && taskDate.getFullYear() === currentDate.getFullYear()}
                 )
         default:

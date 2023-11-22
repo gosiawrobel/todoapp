@@ -25,7 +25,7 @@ const setTaskDone = (task) => {
         <div className='dot' style={{background: statusColorMapping[task.status] }}></div>
         <CardContent>
           <Typography variant='h4' style={{fontFamily: `'Montserrat', sans-serif`, fontWeight:'500'}}> {task.title}</Typography>
-          <Typography>{task.endTime ? dayjs(task.endTime).format("YYYY-MM-DD HH:mm ") : `No due date`}
+          <Typography>{task.dueDate ? dayjs(task.dueDate).format("YYYY-MM-DD HH:mm ") : `No due date`}
           </Typography>
         </CardContent>
       </ListItemButton>

@@ -1,3 +1,5 @@
+import  { COLORS } from './colors'
+
 const priorityMapping = {
     stringToInt: {
       "Low": 1,
@@ -12,9 +14,9 @@ const priorityMapping = {
   }
 
 const statusColorMapping = {
-    'Done': '#6fa17d',
-    'In progress':'#e7d07d',
-    'Not started': '#9c4e4e',
+    'Done': COLORS.doneGreen,
+    'In progress':COLORS.inProgress,
+    'Not started': COLORS.notStarted,
 }
 
   export { priorityMapping, statusColorMapping }
