@@ -57,7 +57,7 @@ public class TaskController {
 
     @PostMapping("")
     public ResponseEntity<Task> addTask(@RequestBody Task task){
-        System.out.println("Received Date (Backend): " + task.getEndTime());
+        System.out.println("Received Date (Backend): " + task.getdueDate());
         Task newTask = taskService.addTask(task);
         taskReminder.sendTaskNotif(newTask);
         return ResponseEntity.ok(newTask);
@@ -65,7 +65,7 @@ public class TaskController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Task> updateTaskById(@PathVariable("id") Long id, @RequestBody Task updatedTask){
-        System.out.println(updatedTask.getEndTime());
+        System.out.println(updatedTask.getdueDate());
         Task task=taskService.updateTaskById(id, updatedTask);
         return ResponseEntity.ok(task);
     }

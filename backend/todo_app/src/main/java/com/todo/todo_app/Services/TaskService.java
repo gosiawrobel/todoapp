@@ -46,7 +46,7 @@ public class TaskService {
 
         Task existingTask=taskRepository.findById(id).orElseThrow();
 
-        if (updatedTask.getEndTime() != existingTask.getEndTime()) {
+        if (updatedTask.getdueDate() != existingTask.getdueDate()) {
             existingTask.setReminderSent(false);
         }
 
@@ -58,7 +58,7 @@ public class TaskService {
         existingTask.setDescription(updatedTask.getDescription());
         existingTask.setCategory(updatedTask.getCategory());
         existingTask.setStartTime(updatedTask.getStartTime());
-        existingTask.setEndTime(updatedTask.getEndTime());
+        existingTask.setdueDate(updatedTask.getdueDate());
         existingTask.setPriority(updatedTask.getPriority());
         existingTask.setEstimate(updatedTask.getEstimate());
         existingTask.setTimeSpent(updatedTask.getTimeSpent());

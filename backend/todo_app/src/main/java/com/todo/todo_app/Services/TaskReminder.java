@@ -42,7 +42,7 @@ public class TaskReminder {
         LocalDateTime currentTimeUTC = LocalDateTime.ofInstant(currentTime, ZoneOffset.UTC);
         LocalDateTime reminderTime = currentTimeUTC.plusMinutes(30);
 
-        List<Task> upcomingTask = taskRepository.findByEndTimeBetween(currentTimeUTC, reminderTime);
+        List<Task> upcomingTask = taskRepository.findBydueDateBetween(currentTimeUTC, reminderTime);
 
         for (Task task : upcomingTask){
             if (!task.isReminderSent()) {

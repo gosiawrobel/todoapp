@@ -14,6 +14,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     //próbuje dodać text searching
     List<Task> findByTitleContainingIgnoreCase(String title);
     // koniec
-    List<Task> findByEndTimeBetween(LocalDateTime startTime, LocalDateTime endTime);
+    List<Task> findBydueDateBetween(LocalDateTime startTime, LocalDateTime dueDate);
 
 }

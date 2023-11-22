@@ -2,6 +2,7 @@ package com.todo.todo_app.Entities;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -26,8 +27,10 @@ public class Task {
     private LocalDateTime startTime;
 
     private Integer priority;
+
+
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone="UTC")
-    private LocalDateTime endTime;
+    private LocalDateTime dueDate;
     private Integer estimate;
     private Integer timeSpent;
     private String status;
@@ -47,11 +50,11 @@ public class Task {
         this.reminderSent = reminderSent;
     }
 
-    public Task(String title, String description, Integer category, String email, boolean reminderSent, LocalDateTime startTime, LocalDateTime endTime, Integer priority, Integer estimate, Integer timeSpent, String status) {
+    public Task(String title, String description, Integer category, String email, boolean reminderSent, LocalDateTime startTime, LocalDateTime dueDate, Integer priority, Integer estimate, Integer timeSpent, String status) {
         this.title = title;
         this.description = description;
         this.startTime = startTime;
-        this.endTime = endTime;
+        this.dueDate = dueDate;
         this.priority = priority;
         this.estimate = estimate;
         this.timeSpent = timeSpent;
@@ -105,12 +108,12 @@ public class Task {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
+    public LocalDateTime getdueDate() {
+        return dueDate;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
+    public void setdueDate(LocalDateTime dueDate) {
+        this.dueDate = dueDate;
     }
 
     public Integer getPriority() {
