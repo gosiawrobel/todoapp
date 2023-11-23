@@ -1,7 +1,5 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
 import { Box, Stack, Typography, Grid} from '@mui/material'
-import  { Sidebar, Task } from '.'
 import { PieChart } from '@mui/x-charts/PieChart';
 import AllTasks from './AllTasks';
 import  { Container } from '@mui/material';
@@ -9,7 +7,7 @@ import { statusColorMapping } from '../utils/utils';
 import Watch from './Watch';
 
 
-function Summary({tasks,setTasks}) {
+function Summary({tasks,setTasks, darkMode}) {
   const data = [
     { label: 'Not started', value: tasks.count((task) => task.status === 'Not started') },
     { label: 'In progress', value: tasks.count((task) => task.status === 'In progress') },
@@ -41,7 +39,7 @@ function Summary({tasks,setTasks}) {
               width={400}
               legend={{ hidden: true }}>
             </PieChart>
-            <Watch />
+            <Watch darkMode={darkMode}/>
           </div>
         </Grid>
         <AllTasks tasks={tasks} setTasks={setTasks}/>

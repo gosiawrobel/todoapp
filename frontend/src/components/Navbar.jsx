@@ -1,10 +1,11 @@
 import React from 'react'
-import { Stack } from '@mui/material'
+import { IconButton, Stack } from '@mui/material'
 import { Link } from 'react-router-dom'
 import Logo from './Logo';
 import SearchBar from './SearchBar';
-import { COLORS } from '../utils/colors';
-import Brightness6Icon from '@mui/icons-material/Brightness7';
+import {COLORS} from '../utils/colors.js'
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 
 const Navbar = ({darkMode, changeMode}) => (
@@ -16,7 +17,7 @@ const Navbar = ({darkMode, changeMode}) => (
      <Logo/>
     </Link>
      <SearchBar/>
-     <Brightness6Icon sx={{ ml: 1 }} onClick={changeMode} color="inherit"/>
+     <IconButton sx={{ ml: 1 }} onClick={changeMode} >{darkMode ? <Brightness7Icon style={{color:'white'}} /> : <Brightness4Icon />}</IconButton>
   </Stack> 
   )
 

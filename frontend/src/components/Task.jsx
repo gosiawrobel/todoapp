@@ -19,8 +19,7 @@ const setTaskDone = (task) => {
   updateTask(setTasks, task)
 }
   return (
-    
-    <Card>
+    <Card id={task.id}>
       <ListItemButton onClick={() => onClick(task.id)}>
         <div className='dot' style={{background: statusColorMapping[task.status] }}></div>
         <CardContent>

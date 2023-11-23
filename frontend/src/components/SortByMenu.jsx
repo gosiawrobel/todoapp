@@ -3,7 +3,7 @@ import Menu from '@mui/material/Menu';
 import SortIcon from '@mui/icons-material/Sort';
 import MenuItem from '@mui/material/MenuItem';
 import { sortNames } from '../utils/compareMtehods';
-import { COLORS } from '../utils/colors';
+import {COLORS} from '../utils/colors.js'
 
 const SortByMenu = ({ onSortingMethodChange }) => {
     const [sortByMenuOpen, setSortByMenuOpen] = useState(null);

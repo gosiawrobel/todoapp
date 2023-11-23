@@ -1,7 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 import { Container, Grid, Card, CardContent, Typography, Box} from '@mui/material';
-import { IconButton } from '@mui/material';
 import  Task from './Task'
 import TaskDetails from './TaskDetails';
 import Fab from '@mui/material/Fab';
@@ -9,14 +8,13 @@ import AddIcon from '@mui/icons-material/Add';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import { sortingMethodFromName } from '../utils/compareMtehods';
-import { COLORS } from '../utils/colors';
-
+import  { COLORS } from '../utils/colors.js'
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-function AllTasks({tasks, setTasks}) {
+function AllTasks({tasks, setTasks, darkMode}) {
+  console.log(tasks)
   
   const [popupOpen, setPopupOpen] = useState(false)
   const [selectedTaskId, setSelectedTaskId] = useState()
@@ -30,9 +28,10 @@ function AllTasks({tasks, setTasks}) {
     setPopupOpen(false)
   }
 
+
   return (
-    <Container >
-      <TaskDetails open={popupOpen} onClose={closePopup} tasks={tasks} setTasks={setTasks} selectedTaskId={selectedTaskId}></TaskDetails>
+    <Container data-testid={tasks.id}>
+      <TaskDetails open={popupOpen} darkMode={darkMode} onClose={closePopup} tasks={tasks} setTasks={setTasks} selectedTaskId={selectedTaskId}></TaskDetails>
       <Grid container spacing={4} >
         {tasks.map((task) => 
           <Grid key={task.id} item xs={12} sm={'auto'}>

@@ -1,15 +1,11 @@
 import { React, useEffect, useState, useRef} from 'react';
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import { Container, autocompleteClasses, duration } from '@mui/material';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { Calendar } from "@fullcalendar/core";
 import listPlugin from "@fullcalendar/list";
-import dayjs from 'dayjs';
-import { statusColorMapping } from '../utils/utils';
 import { updateTask } from '../utils/taskUtils';
-import { COLORS } from '../utils/colors';
+import {COLORS} from '../utils/colors.js'
 import TaskDetails from './TaskDetails';
 
 
@@ -46,7 +42,7 @@ function CalendarView({ setTasks, tasks, darkMode}) {
   const closePopup=() => {
     setPopupOpen(false)
   }
-  
+
   const events = tasks.map(task => ({
     id: task.id,
     title: task.title,
@@ -61,6 +57,7 @@ function CalendarView({ setTasks, tasks, darkMode}) {
       plugins={[ dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin ]} 
       initialView={window.innerWidth < 760 ? 'list' : 'dayGridMonth'} 
       events={events}
+      header = {{color: darkMode ? COLORS.white : 'black' }}
       headerToolbar={{
         left: 'prev,next today',
         center: 'title',
@@ -80,7 +77,7 @@ function CalendarView({ setTasks, tasks, darkMode}) {
           display='background'
           eventStartEditable={true}
           height='auto'
-          eventBackgroundColor={COLORS.calendarEventBcg}
+          eventBackgroundColor='#899791'
           eventTextColor={darkMode ? COLORS.white : 'black'}
           eventTimeFormat={{hour:'2-digit', minute:'2-digit', meridiem:false, hour12:false }}/>
 

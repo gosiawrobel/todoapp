@@ -21,14 +21,15 @@
     "react-player": "^2.10.1",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
+    "sass": "^1.69.5",
     "styled-components": "^6.1.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test": "jest"
   },
   "eslintConfig": {
     "extends": [
@@ -48,9 +49,25 @@
       "last 1 safari version"
     ]
   },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
+  },
   "devDependencies": {
+    "@babel/core": "^7.23.3",
+    "@babel/preset-env": "^7.23.3",
+    "@babel/preset-react": "^7.23.3",
     "@fullcalendar/core": "^6.1.9",
     "@fullcalendar/daygrid": "^6.1.9",
-    "@fullcalendar/list": "^6.1.9"
+    "@fullcalendar/list": "^6.1.9",
+    "@playwright/test": "^1.40.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^14.1.2",
+    "@types/node": "^20.9.4",
+    "babel-jest": "^29.7.0",
+    "jest": "^27.5.1",
+    "jsdom": "^22.1.0",
+    "react-test-renderer": "^18.2.0"
   }
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { Stack } from '@mui/material'
 import { paths } from '../utils/constants'
 import { useNavigate } from 'react-router-dom'
-import { COLORS } from '../utils/colors'
+import {COLORS} from '../utils/colors.js'
 
 const Sidebar=({selectedPath, setSelectedPath, children}) => {
     const navigate = useNavigate()

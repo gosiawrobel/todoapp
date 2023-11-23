@@ -29,6 +29,6 @@ const sortingMethodFromName = {
     "Date descending": dateDescending
 }
 
-const sortNames = ['Date ascending', 'Date descending','Priority ascending', 'Priority descending']
+const sortNames = ['Priority ascending', 'Priority descending', 'Date ascending', 'Date descending']
 
 export { sortingMethodFromName, sortNames }

@@ -6,7 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
+// import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from 'dayjs';
 import InputLabel from '@mui/material/InputLabel';
@@ -15,8 +15,12 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { priorityMapping } from "../utils/utils";
 import { updateTask, createNewTask } from "../utils/taskUtils";
+import { priorityTags, statusTags } from "../utils/filterMethods";
+import { COLORS } from "../utils/colors";
 
-function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
+function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId, darkMode}) {
+  const today = new Date()
+  const currentDate = dayjs.utc(today.dueDate).local().format("YYYY-MM-DD HH:mm ")
 
   const [form, setForm]=useState({
       id:'',
@@ -25,12 +29,8 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
       category:"",
       priority:"",
       email:'example@mail.com',
-      status: ""
-  })
-  const today = new Date()
-  const currentDate = dayjs.utc(today.dueDate).local().format("YYYY-MM-DD HH:mm ")
-  const [date, setDate] = useState({
-    dueDate:currentDate,
+      status: "",
+      dueDate:currentDate
   })
 
   const clearForm =()=>{
@@ -41,10 +41,8 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
         category:"",
         email: 'example@mail.com',
         priority:"Medium",
-        status: "Not started"
-    })
-    setDate({
-        dueDate:currentDate,
+        status: "Not started",
+        dueDate:currentDate
     })
   }
   useEffect(() => {
@@ -61,21 +59,12 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
           category: task.category,
           priority: priorityMapping.intToString[task.priority],
           email: task.email,
-          status: task.status
-        })
-        setDate({
-          dueDate: task.dueDate ? dayjs(task.dueDate).toDate() : ''
+          status: task.status,
+          dueDate: task.dueDate ? dayjs(task.dueDate).toDate() : currentDate
         })
       }
     }
   }, [selectedTaskId, tasks])
-
-  const handleDate = (selectedDate, name) => {
-    setDate((prevValue) => ({
-      ...prevValue,
-      [name]: selectedDate,
-    }))
-  }
 
   const handleForm=(event) => {
     const {name, value} = event.target
@@ -88,26 +77,14 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
     return /\S+@\S+\.\S+/.test(email) && email !== '';
   }
   
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (form.email === ''){
-    console.log('Provide email!')
-  }
-}
   const updateTaskSubmit = (setTasks, e) => {
       e.preventDefault()
     if (!isValidEmail(form.email)){
       return
     }
-    const task =  {
+    const task =  {...form,
         id: selectedTaskId,
-        title: form.title,
-        description: form.description,
-        category: form.category,
-        dueDate: date.dueDate,
         priority: priorityMapping.stringToInt[form.priority],
-        email: form.email,
-        status: form.status
     }
       updateTask(setTasks, task, onClose, (err)=>console.log(err))
   } 
@@ -117,31 +94,23 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
         if (!isValidEmail(form.email)){
           return
         }
-        const task =  {
-            title: form.title,
-            description: form.description,
-            category: form.category,
-            dueDate:date.dueDate,
-            email: form.email,
-            priority: priorityMapping.stringToInt[form.priority],
-            status: form.status
+        const task =  {...form,
+            priority: priorityMapping.stringToInt[form.priority]
         }
         createNewTask(setTasks, task, onClose) 
     } 
 
   return (
-    <Dialog open={open} onClose={() => {
-        onClose()
+    <Dialog style={{zIndex:12}} open={open} onClose={() => {
+      onClose()
     }} fullWidth> 
-    <DialogTitle>{selectedTaskId ? 'Edit task' : 'Create task'} <IconButton style={{float:'right'}} onClick={() => {
+    <DialogTitle style={{backgroundColor: darkMode ? COLORS.dark.darkForm : COLORS.white}}>{selectedTaskId ? 'Edit task' : 'Create task'} <IconButton style={{float:'right'}} onClick={() => {
         onClose()
-    }}><CloseIcon></CloseIcon></IconButton></DialogTitle>
-        <DialogContent>
+    }}><CloseIcon/></IconButton></DialogTitle>
+        <DialogContent style={{backgroundColor: darkMode ? COLORS.notStarted : COLORS.white}}>
             <Stack spacing={2} margin={2} >
-             
                 <TextField required type="text" name="title" label="Title" variant="outlined" value={form.title} onChange={handleForm} ></TextField>
                 <TextField type="text" name="description" id="outlined-multiline-flexible" multiline minRows={3} label="Description" variant="outlined" value={form.description} onChange={handleForm}></TextField>
-
                 <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">Priority</InputLabel>
                     <Select
@@ -150,14 +119,10 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
                     id="demo-simple-select"
                     value={form.priority}
                     label="Priority"
-                    onChange={handleForm}
-                    >
-                    <MenuItem value={'Low'}>Low</MenuItem>
-                    <MenuItem value={'Medium'}>Medium</MenuItem>
-                    <MenuItem value={'High'}>High</MenuItem>
+                    onChange={handleForm}>
+                    {priorityTags.map((priorityTag) => <MenuItem id={priorityTag} value={priorityTag}>{priorityTag}</MenuItem>)}
                     </Select>
                 </FormControl>
-
                 <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">Status</InputLabel>
                     <Select
@@ -166,18 +131,14 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
                     id="demo-simple-select"
                     value={form.status}
                     label="Status"
-                    onChange={handleForm}
-                    >
-                    <MenuItem value={'Not started'}>Not started</MenuItem>
-                    <MenuItem value={'In progress'}>In progress</MenuItem>
-                    <MenuItem value={'Done'}>Done</MenuItem>
+                    onChange={handleForm}>
+                    {statusTags.map((statusTag) => <MenuItem id={statusTag} value={statusTag}>{statusTag}</MenuItem>)}
                     </Select>
                 </FormControl>
-   
                 <TextField required type="email" name="email" label="Email" variant={"outlined"} {...isValidEmail(form.email) ? {} : {id:"outlined-error-helper-text", helperText:"Provide valid email!", error:true}} value={form.email} onChange={handleForm}></TextField>
-                <DemoContainer components={['DateField']}>
-                    <DateTimePicker type="date" timeSteps={{hours: 1, minutes: 1, seconds: 1}} name="dueDate" ampm={false} label="Date" value={dayjs(date.dueDate)} onChange={(selectedDate) => handleDate(selectedDate, "dueDate")}/>
-              </DemoContainer>
+                    <DateTimePicker type="date" timeSteps={{hours: 1, minutes: 1, seconds: 1}} name="dueDate" ampm={false} label="Date" value={dayjs(form.dueDate)} onChange={(selectedDate) => handleForm({target:{name:"dueDate" ,value: selectedDate}})}/>
+                {/* <DemoContainer components={['DateField']}>
+              </DemoContainer> */}
             </Stack>
         </DialogContent>
         <DialogActions>
@@ -185,13 +146,11 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId}) {
             if (form.id === 0) {
                 createTask(setTasks,e)
             } else {
-              updateTaskSubmit(setTasks, e)
-            }
+              updateTaskSubmit(setTasks, e)}
             }} >
         <SendIcon className='icon' fontSize="large"/>
         </IconButton>
         </DialogActions>
-            
     </Dialog> 
   )
 }

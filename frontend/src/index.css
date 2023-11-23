@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
-/* @import './utils/colors.js'; */
+
+
 
 html,
 body {
@@ -191,6 +192,9 @@ tr {
 :root {
     --fc-list-event-hover-bg-color: transparent;
     --fc-today-bg-color: #899791;
+    --fc-timegrid-axis-bg-color: #899791;
+    --fc-scrollgrid-shrink-bg-color: #899791; 
+    --fc-timegrid-axis-frame-bg-color:#899791;
 }
 
 
@@ -245,8 +249,73 @@ border-radius: 8px;
     margin-left: 30px;
 }
 
+.fc .fc-popover{
+    z-index: 1;
+}
+
+
+.fc .fc-button-primary{
+    background-color: #5A6863;
+    border-color: #5A6863;
+}
+
+
+.fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:not(:disabled):active{
+    background-color: #1D3527;
+    border-color:transparent ;
+
+}
+
+.fc .fc-button-primary:hover{
+    background-color: #1D3527;
+    border-color:transparent 
+}
 .css-bhp9pd-MuiPaper-root-MuiCard-root {
     /* background-color: #f5f5f5; */
     /* background: #ffffff; */
     /* background-color: #F2F2F2 !important; */
+}
+
+.notFound { 
+    /* display: flex; */
+    /* justify-content: center;
+    align-items: center;
+    flex-direction: column; */
+}
+.fc .fc-timegrid-slot{
+    background-color: #bcc9be !important; 
+    opacity: 90%;
+}
+.fc-theme-standard .fc-scrollgrid {
+    border: 1px solid white;
+    border-top: hidden;
+    
+}
+.fc .fc-scrollgrid {
+    border-collapse:collapse;
+}
+.fc-h-event .fc-event-main{
+    color: white;
+}
+
+a {
+    color: #899791;
+}
+
+
+.fc .fc-list-sticky .fc-list-day > * {
+    background-color: #899791;
+}
+
+.fc-list-day-text{
+    color: #1D3527;
+}
+
+.fc-toolbar-title {
+    color: #899791;
+}
+
+.fc table {
+    border-collapse:separate ;
+
 }

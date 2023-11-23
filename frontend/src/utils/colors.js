@@ -10,8 +10,14 @@ const COLORS = {
     sidbarOnClickTxt: '#9B9C9C',
     doneGreen: '#6fa17d',
     inProgress: '#e7d07d',
-    notStarted: '#9c4e4e'
+    notStarted: '#9c4e4e',
+    clock: '#6A7872',
+    dark: {
+        darkBackground: "#323232",
+        darkForm:"#777777"
+
+    }
     
 }
 
-export { COLORS }
+export { COLORS } 

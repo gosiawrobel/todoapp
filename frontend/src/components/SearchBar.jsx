@@ -1,7 +1,7 @@
 import React from 'react'
 import { Paper, IconButton } from '@mui/material'
 import { Search } from '@mui/icons-material'
-import { COLORS } from '../utils/colors'
+import {COLORS} from '../utils/colors.js'
 
 
 function SearchBar() {

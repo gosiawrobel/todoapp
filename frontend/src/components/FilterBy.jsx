@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import { COLORS } from '../utils/colors';
+import {COLORS} from '../utils/colors.js'
 
 const FilterBy = ({ onTagsListChange, filterType, tagsList, singleChoice}) => {
     const [menuOpen, setMenuOpen] = useState(null);

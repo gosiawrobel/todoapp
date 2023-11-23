@@ -1,15 +1,8 @@
-import AddIcon from '@mui/icons-material/Add';
-import DoneIcon from '@mui/icons-material/Done';
-import DeleteIcon from '@mui/icons-material/Delete';
+
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import SendIcon from '@mui/icons-material/Send';
-import EditIcon from '@mui/icons-material/Edit';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import BarChartIcon from '@mui/icons-material/BarChart';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
-
-
 
 export const paths = [
     { url: '/', name: 'Summary', icon:<SummarizeIcon/>,},
