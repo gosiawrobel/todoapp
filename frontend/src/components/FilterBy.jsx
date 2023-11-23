@@ -40,10 +40,8 @@ const FilterBy = ({ onTagsListChange, filterType, tagsList, singleChoice}) => {
                     anchorEl={menuOpen} 
                     open={open}
                     onClose={handleClose}
-                
                 >
                     {tagsList.map((tagName) => {
-
                         const isSelected = tags.includes(tagName)
                         return (
                             <MenuItem key={tagName} style={{color:COLORS.filterElements}} onClick={() => {

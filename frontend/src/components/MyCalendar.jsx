@@ -10,7 +10,7 @@ import TaskDetails from './TaskDetails';
 
 
 function CalendarView({ setTasks, tasks, darkMode}) {
-  const [isSmall, setIsSmall]=useState(false)
+  const [isSmall, setIsSmall]=useState(window.screen.width < 600 ? true : false)
   const [popupOpen, setPopupOpen] = useState(false)
   const [selectedTaskId, setSelectedTaskId] = useState()
 
@@ -57,7 +57,6 @@ function CalendarView({ setTasks, tasks, darkMode}) {
       plugins={[ dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin ]} 
       initialView={window.innerWidth < 760 ? 'list' : 'dayGridMonth'} 
       events={events}
-      header = {{color: darkMode ? COLORS.white : 'black' }}
       headerToolbar={{
         left: 'prev,next today',
         center: 'title',

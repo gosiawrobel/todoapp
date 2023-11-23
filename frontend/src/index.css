@@ -319,3 +319,11 @@ a {
     border-collapse:separate ;
 
 }
+
+.fc-event{
+    height: auto;
+}
+
+.fc-h-event .fc-event-title {
+    text-wrap: wrap;
+}

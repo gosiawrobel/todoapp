@@ -137,8 +137,6 @@ function TaskDetails({open, onClose, tasks, setTasks, selectedTaskId, darkMode})
                 </FormControl>
                 <TextField required type="email" name="email" label="Email" variant={"outlined"} {...isValidEmail(form.email) ? {} : {id:"outlined-error-helper-text", helperText:"Provide valid email!", error:true}} value={form.email} onChange={handleForm}></TextField>
                     <DateTimePicker type="date" timeSteps={{hours: 1, minutes: 1, seconds: 1}} name="dueDate" ampm={false} label="Date" value={dayjs(form.dueDate)} onChange={(selectedDate) => handleForm({target:{name:"dueDate" ,value: selectedDate}})}/>
-                {/* <DemoContainer components={['DateField']}>
-              </DemoContainer> */}
             </Stack>
         </DialogContent>
         <DialogActions>
