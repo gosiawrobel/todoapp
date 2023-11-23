@@ -56,12 +56,8 @@ public class TaskService {
 
         existingTask.setTitle(updatedTask.getTitle());
         existingTask.setDescription(updatedTask.getDescription());
-        existingTask.setCategory(updatedTask.getCategory());
-        existingTask.setStartTime(updatedTask.getStartTime());
         existingTask.setdueDate(updatedTask.getdueDate());
         existingTask.setPriority(updatedTask.getPriority());
-        existingTask.setEstimate(updatedTask.getEstimate());
-        existingTask.setTimeSpent(updatedTask.getTimeSpent());
         existingTask.setStatus(updatedTask.getStatus());
 
 

@@ -23,16 +23,10 @@ public class Task {
     private String description;
     private Integer category;
 
-   @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone="UTC")
-    private LocalDateTime startTime;
-
     private Integer priority;
-
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone="UTC")
     private LocalDateTime dueDate;
-    private Integer estimate;
-    private Integer timeSpent;
     private String status;
     private String email;
 
@@ -50,17 +44,13 @@ public class Task {
         this.reminderSent = reminderSent;
     }
 
-    public Task(String title, String description, Integer category, String email, boolean reminderSent, LocalDateTime startTime, LocalDateTime dueDate, Integer priority, Integer estimate, Integer timeSpent, String status) {
+    public Task(String title, String description, String email, boolean reminderSent, LocalDateTime dueDate, Integer priority,  String status) {
         this.title = title;
         this.description = description;
-        this.startTime = startTime;
         this.dueDate = dueDate;
         this.priority = priority;
-        this.estimate = estimate;
-        this.timeSpent = timeSpent;
         this.status = status;
         this.email = email;
-        this.category = category;
         this.reminderSent = reminderSent;
     }
 
@@ -92,21 +82,6 @@ public class Task {
         this.description = description;
     }
 
-    public Integer getCategory() {
-        return category;
-    }
-
-    public void setCategory(Integer category) {
-        this.category = category;
-    }
-
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
 
     public LocalDateTime getdueDate() {
         return dueDate;
@@ -124,21 +99,6 @@ public class Task {
         this.priority = priority;
     }
 
-    public Integer getEstimate() {
-        return estimate;
-    }
-
-    public void setEstimate(Integer estimate) {
-        this.estimate = estimate;
-    }
-
-    public Integer getTimeSpent() {
-        return timeSpent;
-    }
-
-    public void setTimeSpent(Integer timeSpent) {
-        this.timeSpent = timeSpent;
-    }
 
     public String getStatus() {
         return status;
