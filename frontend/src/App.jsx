@@ -25,7 +25,7 @@ dayjs.extend(timezone);
 
 const App = () => {
     const [selectedPath, setSelectedPath] = useState(selectedPathFromUrl(window.location.pathname))
-    const[tasks, setTasks] = useState([])
+    const [tasks, setTasks] = useState([])
     const [sortingMethodName, setSortingMethodName] = useState('Date ascending')
     const [selectedPriorities, setSelectedPriority]=useState([])
     const [selectedStatuses, setSelectedStatuses] = useState(statusTags)
@@ -35,7 +35,6 @@ const App = () => {
       useEffect(()=>{
         fetchTasks(setTasks)
         document.body.style.background= darkMode ? COLORS.darkBackground : COLORS.lightBackground
-        console.log('use effect')
       }, []);
 
     const changeMode=() => {
@@ -60,10 +59,22 @@ const App = () => {
             </Sidebar>
             </Box>
             <Routes>
-                <Route path="/" exact element={<Summary darkMode={darkMode} tasks={tasks.priorityFilter(selectedPriorities).timeFilter(selectedTime).toSorted(sortingMethodFromName[sortingMethodName])} setTasks={setTasks}/>}></Route>
-                <Route path="/tasks" element={<AllTasks darkMode={darkMode} tasks={tasks.priorityFilter(selectedPriorities).statusFilter(selectedStatuses).timeFilter(selectedTime).toSorted(sortingMethodFromName[sortingMethodName])} setTasks={setTasks}/>} />
-                <Route path="/calendar" element={<MyCalendar darkMode={darkMode} dayMaxEvents={window.screen.width < 600 ? 0 : 1} tasks={tasks} setTasks={setTasks}/>} />
-                <Route path="/tasks_done" element={<AllTasks tasks={tasks.priorityFilter(selectedPriorities).statusFilter(['Done']).timeFilter(selectedTime).toSorted(sortingMethodFromName[sortingMethodName])} setTasks={setTasks}/> }/>
+                <Route path="/" exact element={
+                    <Summary darkMode={darkMode} 
+                        tasks={tasks.priorityFilter(selectedPriorities).timeFilter(selectedTime).toSorted(sortingMethodFromName[sortingMethodName])} 
+                        setTasks={setTasks}/>}/>
+                <Route path="/tasks" element={
+                    <AllTasks darkMode={darkMode} 
+                        tasks={tasks.priorityFilter(selectedPriorities).statusFilter(selectedStatuses).timeFilter(selectedTime).toSorted(sortingMethodFromName[sortingMethodName])}
+                        setTasks={setTasks}/>} />
+                <Route path="/calendar" element={
+                    <MyCalendar darkMode={darkMode} 
+                        dayMaxEvents={window.screen.width < 600 ? 0 : 1} 
+                        tasks={tasks} 
+                        setTasks={setTasks}/>} />
+                <Route path="/tasks_done" element={
+                    <AllTasks tasks={tasks.priorityFilter(selectedPriorities).statusFilter(['Done']).timeFilter(selectedTime).toSorted(sortingMethodFromName[sortingMethodName])} 
+                        setTasks={setTasks}/> }/>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
         </Stack>

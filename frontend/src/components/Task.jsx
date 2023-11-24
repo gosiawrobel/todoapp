@@ -8,6 +8,7 @@ import utc from 'dayjs/plugin/utc';
 import { statusColorMapping } from '../utils/utils';
 import { updateTask } from '../utils/taskUtils';
 import { deleteTask } from '../utils/taskUtils';
+import { priorityMapping } from '../utils/utils';
 
 dayjs.extend(utc);
 dayjs.extend(require('dayjs/plugin/timezone'));
@@ -22,6 +23,7 @@ const setTaskDone = (task) => {
     <Card id={task.id}>
       <ListItemButton onClick={() => onClick(task.id)}>
         <div className='dot' style={{background: statusColorMapping[task.status] }}></div>
+        <div className='priority'>{priorityMapping.intToString[task.priority]}</div>
         <CardContent>
           <Typography variant='h4' style={{fontFamily: `'Montserrat', sans-serif`, fontWeight:'500'}}> {task.title}</Typography>
           <Typography>{task.dueDate ? dayjs(task.dueDate).format("YYYY-MM-DD HH:mm ") : `No due date`}

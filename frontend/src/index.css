@@ -80,6 +80,17 @@ img {
     right: 10px;
 }
 
+.priority {
+    width: auto;
+    height: 20px;
+    /* border-radius: 50%; */
+    position: absolute;
+    top: 10px;
+    right: 45px;
+}
+
+
+
 
 tr {
     background-color: transparent;
@@ -228,12 +239,7 @@ td.fc-list-event-title, td.fc-list-event-time, td.fc-list-event-graphic {
 .fc-v-event, .fc-event-main-frame {
     flex-direction: row !important;
 }
-/* th {
-    border-top: none;
-} */
-/* .fc-today-bg-color{
-    background-color: #fff;
-} */
+
 
 .fc-timegrid-event, .fc-timegrid-more-link{
 border-radius: 8px;
@@ -327,3 +333,5 @@ a {
 .fc-h-event .fc-event-title {
     text-wrap: wrap;
 }
+
+.fc .fc-view-harness-active > .fc-view {     background-color: #555 !important; }

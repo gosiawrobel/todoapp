@@ -27,7 +27,7 @@ const Sidebar=({selectedPath, setSelectedPath, children}) => {
             <span style={{ opacity: path.name === selectedPath ? '1' : '0.8'}}>{path.name}</span>
         </button>
     ))}
-     {React.Children.map(children, (child) => child )}
+     {children}
     </Stack>
     )
 }

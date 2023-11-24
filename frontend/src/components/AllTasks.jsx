@@ -14,7 +14,6 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 function AllTasks({tasks, setTasks, darkMode}) {
-  console.log(tasks)
   
   const [popupOpen, setPopupOpen] = useState(false)
   const [selectedTaskId, setSelectedTaskId] = useState()

@@ -38,16 +38,12 @@ public class TaskController {
         return taskService.getAllTasks();
     }
 
-
-    //dodane do text search
     @GetMapping("/tasks")
     public List<Task> searchTask(@RequestParam String keyword){
         return taskService.searchTaskByTitle(keyword);
     }
 
 
-
-//koniec
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTaskById(@PathVariable("id") Long id) {
